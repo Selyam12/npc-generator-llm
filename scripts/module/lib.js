@@ -5,6 +5,7 @@ export const COSTANTS = {
     MODULE_ID: "npc-generator-llm",
     LOG_PREFIX: "NPC Generator (LLM) |",
     API_GPT_URL: "https://api.openai.com/v1/chat/completions",
+    API_GROQ_URL: "https://api.groq.com/openai/v1/chat/completions",
     TEMPLATE: {
         DIALOG: 'generate.hbs',
         ENHANCE: 'enhance.hbs',
@@ -46,6 +47,36 @@ export class npcGenGPTLib {
         }
     }
 
+    static async callAIGroq(content) {
+        isRequesting = true;
+
+        const requestConfig = this.getRequestConfig_Groq(content);
+
+        console.log(`${COSTANTS.LOG_PREFIX} Sending Request`);
+
+        try {
+            const response = await fetch(COSTANTS.API_GROQ_URL, requestConfig);
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                const errorMsg = (typeof responseData.error.message === 'string') ? responseData.error.message : responseData.error.message.message;
+                if (response.status == 429) 
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error4")}`);
+                else
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error")}`);
+                throw new Error(`${response.status} | Message: ${errorMsg}`);
+            }
+
+            this.logGroqDataCost(responseData);
+            return this.convertGPTData(responseData)
+        } catch (error) {
+            console.error(error);
+        } finally {
+            isRequesting = false;
+        }
+    }
+
+
     static getRequestConfig(content) {
         return {
             method: "POST",
@@ -69,7 +100,29 @@ export class npcGenGPTLib {
             }
         };
     }
-
+    static getRequestConfig_Groq(content) {
+        return {
+            method: "POST",
+            body: JSON.stringify({
+                "model": "Mixtral-8x7b-32768",
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": content
+                    }
+                ],
+                "temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
+                "top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
+                "frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
+                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${game.settings.get(COSTANTS.MODULE_ID, "apiKey_GPT")}`
+            }
+        };
+    }
     static convertGPTData(content) {
         const gptContent = content.choices[0].message.content;
         const regex = /```json([\s\S]*?)```/;
@@ -101,7 +154,13 @@ export class npcGenGPTLib {
         const outputCost = 0.002 / (1000 / gptData.usage.completion_tokens);
         console.warn(COSTANTS.LOG_PREFIX, 'API call cost:', `$${inputCost + outputCost}`);
     }
-
+    //for now the cosst of using Groq is 0
+    static logGroqDataCost(gptData) {
+        groqCostPrefix = 0.0
+        const inputCost =groqCostPrefix* 0.001 / (1000 / gptData.usage.prompt_tokens);
+        const outputCost = groqCostPrefix*0.002 / (1000 / gptData.usage.completion_tokens);
+        console.warn(COSTANTS.LOG_PREFIX, 'API call cost:', `$${inputCost + outputCost}`);
+    }
     static getDialogCategories() {
         return npcGenGPTDataStructure.categoryList.map(category => {
             return { value: category, label: `npc-generator-gpt.dialog.${category}.label` }

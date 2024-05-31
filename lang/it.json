@@ -25,6 +25,10 @@
             "name": "Chiave API GPT",
             "hint": "La tua chiave API privata di OpenAI. [https://platform.openai.com/account/api-keys]"
         },
+        "apiKey_Groq": {
+            "name": "Chiave API Groq",
+            "hint": "La tua chiave API privata di Groq. [https://console.groq.com/keys]"
+        },
         "temperature": {
             "name": "Temperatura",
             "hint": "Questo parametro influisce sulla \"creatività\" delle risposte del modello. Valori elevati (vicini a 1) rendono le risposte più casuali, mentre valori bassi (vicini a 0) le rendono più deterministe e focalizzate. Un valore alto potrebbe portare a una varietà maggiore nelle risposte, ma potrebbe anche produrre output meno prevedibili."

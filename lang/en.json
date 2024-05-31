@@ -25,6 +25,10 @@
             "name": "API Key GPT",
             "hint": "Your private OpenAI API key. [https://platform.openai.com/account/api-keys]"
         },
+        "apiKey_Groq": {
+            "name": "API Key Groq",
+            "hint": "Your private Groq API key. [https://console.groq.com/keys]"
+        },
         "temperature": {
             "name": "Temperature",
             "hint": "This parameter affects the \"creativity\" of the model's responses. Higher values (close to 1) make the responses more random, while lower values (close to 0) make them more deterministic and focused. A high value might lead to greater variety in responses, but could also produce less predictable output."

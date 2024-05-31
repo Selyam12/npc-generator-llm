@@ -63,6 +63,14 @@ export class npcGenGPTSettings {
 			default: '',
 			type: String
 		});
+		game.settings.register(COSTANTS.MODULE_ID, "apiKey_Groq", {
+			name: game.i18n.localize("npc-generator-gpt.settings.apiKey_Groq.name"),
+			hint: game.i18n.localize("npc-generator-gpt.settings.apiKey_Groq.hint"),
+			scope: "client",
+			config: true,
+			default: '',
+			type: String
+		});
 		game.settings.register(COSTANTS.MODULE_ID, "temperature", {
 			name: game.i18n.localize("npc-generator-gpt.settings.temperature.name"),
 			hint: game.i18n.localize("npc-generator-gpt.settings.temperature.hint"),
