@@ -93,6 +93,7 @@
         "subtype": {
             "label": "Lavoro",
             "class": "Classe",
+            "type":"Typo",
             "subrace": "Sottorazza"
         },
         "commoner": {
