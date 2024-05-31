@@ -156,7 +156,7 @@ export class npcGenGPTLib {
     }
     //for now the cosst of using Groq is 0
     static logGroqDataCost(gptData) {
-        groqCostPrefix = 0.0
+        const groqCostPrefix = 0.0
         const inputCost =groqCostPrefix* 0.001 / (1000 / gptData.usage.prompt_tokens);
         const outputCost = groqCostPrefix*0.002 / (1000 / gptData.usage.completion_tokens);
         console.warn(COSTANTS.LOG_PREFIX, 'API call cost:', `$${inputCost + outputCost}`);
