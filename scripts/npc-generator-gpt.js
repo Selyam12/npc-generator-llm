@@ -9,7 +9,7 @@ Hooks.once('ready', () => {
 
 Hooks.on("renderActorDirectory", async (app, html) => {
     if (game.user.isGM && app instanceof ActorDirectory) {
-        let button = $(`<button class='npc-generator-gpt'><i class='fas fa-address-card'></i> ${game.i18n.localize("npc-generator-gpt.button")}</button>`)
+        let button = $(`<button class='npc-generator-llm'><i class='fas fa-address-card'></i> ${game.i18n.localize("npc-generator-llm.button")}</button>`)
 
         button.click(function () {
             new npcGenGPTGenerateNPC().render(true)
@@ -23,7 +23,7 @@ Hooks.on("getActorSheetHeaderButtons", async (app, buttons) => {
     if (game.user.isGM && app.object.type === 'npc') {
         buttons.unshift({
             label: 'NGG',
-            class: 'npc-generator-gpt',
+            class: 'npc-generator-llm',
             icon: 'fa-light fa-atom',
             onclick: ev => { new npcGenGPTEnhanceNPC(app.object).render(true) }
         });

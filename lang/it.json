@@ -1,5 +1,5 @@
 {
-    "npc-generator-gpt.settings": {
+    "npc-generator-llm.settings": {
         "hideAlignment": {
             "name": "Nascondi Allineamento",
             "hint": "Sostituisce l'allineamento con \"Sconosciuto\" nel caso in cui lo si volesse nascondere ai giocatori. L'allineamento verrà comunque importato nella sezione segreta all'interno della \"Biografia\"."
@@ -50,8 +50,8 @@
             "hint": "Questo parametro influisce sulla tendenza del modello a includere o escludere specifiche parole o concetti nella risposta. Valori positivi incentivano l'inclusione di specifici concetti, mentre valori negativi li disincentivano."
         }
     },
-    "npc-generator-gpt.button": "Genera NPC",
-    "npc-generator-gpt.dialog": {
+    "npc-generator-llm.button": "Genera NPC",
+    "npc-generator-llm.dialog": {
         "title": "NGG - Preferenze",
         "button": "Crea NPC",
         "buttonPending": "Connessione...",
@@ -146,7 +146,7 @@
             "ce": "Caotico Malvagio"
         }
     },
-    "npc-generator-gpt.enhance": {
+    "npc-generator-llm.enhance": {
         "title": "NGG - Preferenze",
         "button": "Migliora NPC",
         "buttonPending": "Connessione...",
@@ -155,7 +155,7 @@
             "enhance": "Modifica"
         }
     },
-    "npc-generator-gpt.status": {
+    "npc-generator-llm.status": {
         "done": "Generazione NPC '{npcName}' Completata!",
         "enhance": "Modifica NPC '{npcName}' Completata!",
         "error": "Richiesta Rifiutata! Attendi qualche secondo e riprova. (Consulta la console (F12) per maggiori dettagli)",
@@ -164,7 +164,7 @@
         "error4": "Non disponi di credito nel tuo account OpenAI. Visitare https://platform.openai.com/account/billing/overview",
         "wait": "Per favore, attendi. Una richiesta è già in fase di elaborazione."
     },
-    "npc-generator-gpt.query": {
+    "npc-generator-llm.query": {
         "generate": "Crea un NPC {userQuery} per D&D 5 Edizione con valori in italiano. Struttura:",
         "enhance": "Scrivi una biografia per l'NPC di D&D 5 Edizione {userQuery} con valori in italiano. Struttura:",
         "name": "Nome",
@@ -175,7 +175,7 @@
         "equip": "Equipaggiamento",
         "spells": "Incantesimi"
     },
-    "npc-generator-gpt.sheet": {
+    "npc-generator-llm.sheet": {
         "appearance": "Aspetto",
         "background": "Biografia",
         "alignment": "Allineamento",

@@ -1,5 +1,5 @@
 {
-    "npc-generator-gpt.settings": {
+    "npc-generator-llm.settings": {
         "hideAlignment": {
             "name": "Hide Alignment",
             "hint": "Replaces the alignment with \"Unknown\" if you wish to hide it from the players. The alignment will still be imported into the secret section within the \"Biography\"."
@@ -50,8 +50,8 @@
             "hint": "This parameter influences the model's tendency to include or exclude specific words or concepts in the answer. Positive values encourage the inclusion of specific concepts, while negative values discourage them."
         }
     },
-    "npc-generator-gpt.button": "Generate NPC",
-    "npc-generator-gpt.dialog": {
+    "npc-generator-llm.button": "Generate NPC",
+    "npc-generator-llm.dialog": {
         "title": "NGG - Preferences",
         "button": "Create NPC",
         "buttonPending": "Connecting...",
@@ -146,7 +146,7 @@
             "ce": "Chaotic Evil"
         }
     },
-    "npc-generator-gpt.enhance": {
+    "npc-generator-llm.enhance": {
         "title": "NGG - Preferences",
         "button": "Enhance NPC",
         "buttonPending": "Connecting...",
@@ -155,7 +155,7 @@
             "enhance": "Enhance"
         }
     },
-    "npc-generator-gpt.status": {
+    "npc-generator-llm.status": {
         "done": "NPC '{npcName}' Generation Completed!",
         "enhance": "NPC '{npcName}' Enhancing Completed!",
         "error": "Request Denied! Wait a few seconds and try again. (See console (F12) for more details)",
@@ -164,7 +164,7 @@
         "error4": "You do not have any credit in your OpenAI account. Please visit https://platform.openai.com/account/billing/overview",
         "wait": "Please wait. A request is already being processed."
     },
-    "npc-generator-gpt.query": {
+    "npc-generator-llm.query": {
         "generate": "Create a NPC {userQuery} for D&D 5e. Structure:",
         "enhance": "Write the D&D 5e NPC {userQuery} biography. Structure:",
         "name": "Name",
@@ -175,7 +175,7 @@
         "equip": "Equipment",
         "spells": "Spells"
     },
-    "npc-generator-gpt.sheet": {
+    "npc-generator-llm.sheet": {
         "appearance": "Appearance",
         "background": "Background",
         "alignment": "Alignment",

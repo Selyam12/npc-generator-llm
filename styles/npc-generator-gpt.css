@@ -1,7 +1,7 @@
-#npc-generator-gpt header {
+#npc-generator-llm header {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
-#npc-generator-gpt section {
+#npc-generator-llm section {
     background: #444654;
     border-radius: 0 0 5px 5px;
 }

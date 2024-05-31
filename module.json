@@ -1,5 +1,5 @@
 {
-  "id": "npc-generator-gpt",
+  "id": "npc-generator-llm",
   "title": "NPC Generator (GPT) D&D 5e",
   "description": "NPC generator for D&D5e powered by ChatGPT",
   "version": "1.5.6",
@@ -30,10 +30,10 @@
     ]
   },
   "styles": [
-    "styles/npc-generator-gpt.css"
+    "styles/npc-generator-llm.css"
   ],
   "scripts": [],
-  "esmodules": ["scripts/npc-generator-gpt.js"],
+  "esmodules": ["scripts/npc-generator-llm.js"],
   "languages": [
     {
       "lang": "en",

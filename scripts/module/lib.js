@@ -32,9 +32,9 @@ export class npcGenGPTLib {
             if (!response.ok) {
                 const errorMsg = (typeof responseData.error.message === 'string') ? responseData.error.message : responseData.error.message.message;
                 if (response.status == 429) 
-                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error4")}`);
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error4")}`);
                 else
-                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error")}`);
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error")}`);
                 throw new Error(`${response.status} | Message: ${errorMsg}`);
             }
 
@@ -61,9 +61,9 @@ export class npcGenGPTLib {
             if (!response.ok) {
                 const errorMsg = (typeof responseData.error.message === 'string') ? responseData.error.message : responseData.error.message.message;
                 if (response.status == 429) 
-                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error4")}`);
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error4")}`);
                 else
-                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error")}`);
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error")}`);
                 throw new Error(`${response.status} | Message: ${errorMsg}`);
             }
 
@@ -127,7 +127,7 @@ export class npcGenGPTLib {
         const gptContent = content.choices[0].message.content;
         const regex = /```json([\s\S]*?)```/;
         const match = regex.exec(gptContent);
-        const errorMsg = `${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-gpt.status.error2")}`;
+        const errorMsg = `${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error2")}`;
 
         if (match) {
             const jsonString = match[1].trim();
@@ -163,19 +163,19 @@ export class npcGenGPTLib {
     }
     static getDialogCategories() {
         return npcGenGPTDataStructure.categoryList.map(category => {
-            return { value: category, label: `npc-generator-gpt.dialog.${category}.label` }
+            return { value: category, label: `npc-generator-llm.dialog.${category}.label` }
         });
     }
 
     static getDialogOptions(category, random) {
         const list = npcGenGPTDataStructure[category + 'List'];
-        const localize = (cat, val) => `npc-generator-gpt.dialog.${cat}.${val}`;
+        const localize = (cat, val) => `npc-generator-llm.dialog.${cat}.${val}`;
         const options = (typeof list === 'function' ? list(random) : list).map(value => ({
             value,
             label: category === 'cr' ? (Number.isInteger(value) ? value : this.floatToFraction(value)) : localize(category, value),
             translate: typeof value === 'string'
         }));
-        if (random) options.unshift({ value: 'random', label: 'npc-generator-gpt.dialog.random', translate: true });
+        if (random) options.unshift({ value: 'random', label: 'npc-generator-llm.dialog.random', translate: true });
         return options;
     }
 
