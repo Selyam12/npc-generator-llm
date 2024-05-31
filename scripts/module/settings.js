@@ -55,6 +55,18 @@ export class npcGenGPTSettings {
 				step: 0.1,
 			}
 		});
+		game.settings.register(COSTANTS.MODULE_ID, "LLMEngine", {
+			name: game.i18n.localize("npc-generator-gpt.settings.LLMEngine.name"),
+			hint: game.i18n.localize("npc-generator-gpt.settings.LLMEngine.hint"),
+			scope: "world",
+			config: true,
+			default: "Groq",
+			type: String,
+			choices: {
+				1: "Groq",
+				2: "GPT"
+			}
+		});
 		game.settings.register(COSTANTS.MODULE_ID, "apiKey_GPT", {
 			name: game.i18n.localize("npc-generator-gpt.settings.apiKey_GPT.name"),
 			hint: game.i18n.localize("npc-generator-gpt.settings.apiKey_GPT.hint"),

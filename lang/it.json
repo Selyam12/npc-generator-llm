@@ -17,6 +17,10 @@
             "name": "Compendio Incantesimi",
             "hint": "Il compendio degli incantesimi che verrà utilizzato per popolare la scheda del personaggio."
         },
+        "LLMEngine": {
+            "name": "LLM engine",
+            "hint": "The LLM engine to be used [Groq(Mixtral) or GPT(3.5)]."
+        },
         "fuzzyThreshold": {
             "name": "Soglia Ricerca Oggetti e Incantesimi",
             "hint": "Il punto in cui l'algoritmo di corrispondenza si arrende. Una soglia di 0.0 richiede una corrispondenza perfetta (sia delle lettere che della posizione), una soglia di 1.0 accetta qualsiasi risultato."
