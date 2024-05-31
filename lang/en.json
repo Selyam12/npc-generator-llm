@@ -93,6 +93,7 @@
         "subtype": {
             "label": "Job",
             "class": "Class",
+            "type":"Type",
             "subrace": "Subrace"
         },
         "commoner": {
