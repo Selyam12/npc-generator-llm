@@ -103,23 +103,23 @@ export class npcGenGPTLib {
     static getRequestConfig_Groq(content) {
         return {
             method: "POST",
-            body: JSON.stringify({
-                "model": "Mixtral-8x7b-32768",
+            body: JSON.stringify({                
                 "messages": [
                     {
                         "role": "user",
                         "content": content
                     }
                 ],
-                "temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
-                "top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
-                "frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
-                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
+                "model": "Mixtral-8x7b-32768",
+                //"temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
+                //"top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
+                //"frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
+                //"presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
             }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${game.settings.get(COSTANTS.MODULE_ID, "apiKey_GPT")}`
+                'Authorization': `Bearer ${game.settings.get(COSTANTS.MODULE_ID, "apiKey_Groq")}`
             }
         };
     }
