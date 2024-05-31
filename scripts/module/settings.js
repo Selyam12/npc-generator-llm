@@ -63,8 +63,8 @@ export class npcGenGPTSettings {
 			default: "Groq",
 			type: String,
 			choices: {
-				1: "Groq",
-				2: "GPT"
+				"Groq": "Groq",
+				"GPT": "GPT"
 			}
 		});
 		game.settings.register(COSTANTS.MODULE_ID, "apiKey_GPT", {
