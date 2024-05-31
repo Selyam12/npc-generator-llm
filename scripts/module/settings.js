@@ -58,7 +58,7 @@ export class npcGenGPTSettings {
 		game.settings.register(COSTANTS.MODULE_ID, "LLMEngine", {
 			name: game.i18n.localize("npc-generator-llm.settings.LLMEngine.name"),
 			hint: game.i18n.localize("npc-generator-llm.settings.LLMEngine.hint"),
-			scope: "world",
+			scope: "client",
 			config: true,
 			default: "Groq",
 			type: String,
