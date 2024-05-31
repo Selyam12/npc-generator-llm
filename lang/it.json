@@ -21,8 +21,8 @@
             "name": "Soglia Ricerca Oggetti e Incantesimi",
             "hint": "Il punto in cui l'algoritmo di corrispondenza si arrende. Una soglia di 0.0 richiede una corrispondenza perfetta (sia delle lettere che della posizione), una soglia di 1.0 accetta qualsiasi risultato."
         },
-        "apiKey": {
-            "name": "Chiave API",
+        "apiKey_GPT": {
+            "name": "Chiave API GPT",
             "hint": "La tua chiave API privata di OpenAI. [https://platform.openai.com/account/api-keys]"
         },
         "temperature": {

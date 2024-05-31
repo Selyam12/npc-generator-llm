@@ -2,9 +2,9 @@ import { npcGenGPTDataStructure } from "./dataStructures.js"
 import { Fuse } from "../lib/fuse.mjs"
 
 export const COSTANTS = {
-    MODULE_ID: "npc-generator-gpt",
-    LOG_PREFIX: "NPC Generator (GPT) |",
-    API_URL: "https://api.openai.com/v1/chat/completions",
+    MODULE_ID: "npc-generator-llm",
+    LOG_PREFIX: "NPC Generator (LLM) |",
+    API_GPT_URL: "https://api.openai.com/v1/chat/completions",
     TEMPLATE: {
         DIALOG: 'generate.hbs',
         ENHANCE: 'enhance.hbs',
@@ -17,7 +17,7 @@ export var isRequesting = false;
 
 export class npcGenGPTLib {
 
-    static async callAI(content) {
+    static async callAIGPT(content) {
         isRequesting = true;
 
         const requestConfig = this.getRequestConfig(content);
@@ -25,7 +25,7 @@ export class npcGenGPTLib {
         console.log(`${COSTANTS.LOG_PREFIX} Sending Request`);
 
         try {
-            const response = await fetch(COSTANTS.API_URL, requestConfig);
+            const response = await fetch(COSTANTS.API_GPT_URL, requestConfig);
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -65,7 +65,7 @@ export class npcGenGPTLib {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${game.settings.get(COSTANTS.MODULE_ID, "apiKey")}`
+                'Authorization': `Bearer ${game.settings.get(COSTANTS.MODULE_ID, "apiKey_GPT")}`
             }
         };
     }

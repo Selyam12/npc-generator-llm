@@ -1,5 +1,10 @@
 # NPC Generator (GPT) Changelog
 
+## v1.5.6
+* change apiKey to apiKey_GPT
+* change API_URL to API_GPT_URL
+* change GPT to LLM in titles
+
 ## v1.5.5
 * Added optional name input
 

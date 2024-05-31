@@ -55,9 +55,9 @@ export class npcGenGPTSettings {
 				step: 0.1,
 			}
 		});
-		game.settings.register(COSTANTS.MODULE_ID, "apiKey", {
-			name: game.i18n.localize("npc-generator-gpt.settings.apiKey.name"),
-			hint: game.i18n.localize("npc-generator-gpt.settings.apiKey.hint"),
+		game.settings.register(COSTANTS.MODULE_ID, "apiKey_GPT", {
+			name: game.i18n.localize("npc-generator-gpt.settings.apiKey_GPT.name"),
+			hint: game.i18n.localize("npc-generator-gpt.settings.apiKey_GPT.hint"),
 			scope: "client",
 			config: true,
 			default: '',

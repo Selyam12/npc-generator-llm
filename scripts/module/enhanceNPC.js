@@ -49,7 +49,7 @@ export class npcGenGPTEnhanceNPC extends Application {
         const selectedCR = this.element.find('#cr').val();
 
         if (isBackgroundChecked) {
-            this.data.gptData = await npcGenGPTLib.callAI(this.initBackgroundNPC());
+            this.data.gptData = await npcGenGPTLib.callAIGPT(this.initBackgroundNPC());
         }
 
         if (selectedCR != this.npc.system.details.cr) {
