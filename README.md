@@ -10,7 +10,7 @@ This Foundry VTT module allows users to generate random NPCs using ChatGPT APIs.
 ## Setup
 To install, follow these instructions:
 1. Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
-1. Click the Install Module button and enter the following URL: https://github.com/Halftonex/npc-generator-gpt/releases/latest/download/module.json
+1. Click the Install Module button and enter the following URL: https://github.com/Selyam12/npc-generator-gpt/releases/latest/download/module.json
 1. Click Install and wait for installation to complete.
 
 ## Usage
