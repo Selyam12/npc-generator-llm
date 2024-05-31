@@ -1,6 +1,6 @@
 export class npcGenGPTDataStructure {
     static categoryList = ['type', 'gender', 'race', 'subtype', 'alignment', 'cr'];
-    static typeList = ['commoner', 'npc'];
+    static typeList = ['commoner', 'npc','monster'];
     static genderList = ['male', 'female'];
     static raceList = [
         'dragonborn',
@@ -21,6 +21,10 @@ export class npcGenGPTDataStructure {
     static npcList = [
         'barbarian', 'bard', 'cleric', 'druid', 'fighter', 'monk',
         'paladin', 'ranger', 'rogue', 'sorcerer', 'warlock', 'wizard'
+    ];
+    static monsterList = [
+        'aberration', 'beast', 'celestial', 'construct', 'dragon', 'elemental',
+        'fey', 'fiend', 'giant', 'humanoid', 'monstrosity', 'ooze','plant','undead'
     ];
     static alignmentList = ['lg', 'ng', 'cg', 'ln', 'n', 'cn', 'le', 'ne', 'ce'];
 
@@ -54,6 +58,7 @@ export class npcGenGPTDataStructure {
 
     static subtypeData = {
         commoner: { save: { max: 2, pool: ['str', 'dex', 'int', 'wis', 'con', 'cha'] }, skills: { max: 2, pool: ['acr', 'ani', 'arc', 'ath', 'dec', 'his', 'ins', 'inv', 'itm', 'med', 'nat', 'per', 'prc', 'prf', 'rel', 'slt', 'ste', 'sur'] } },
+        monster: { save:{max:3, pool: ['str', 'dex', 'int', 'wis', 'con', 'cha']}, spellcasting: {max:1,pool: ['int','wis','cha']}, skills: { max: 5, pool: ['acr', 'ani', 'arc', 'ath', 'dec', 'his', 'ins', 'inv', 'itm', 'med', 'nat', 'per', 'prc', 'prf', 'rel', 'slt', 'ste', 'sur'] } },
         barbarian: { save: ['str', 'con'], skills: { max: 2, pool: ['ani', 'ath', 'itm', 'nat', 'prc', 'sur'] } },
         bard: { save: ['dex', 'cha'], spellcasting: 'cha', skills: { max: 3, pool: ['acr', 'ani', 'arc', 'ath', 'dec', 'his', 'ins', 'inv', 'itm', 'med', 'nat', 'per', 'prc', 'prf', 'rel', 'slt', 'ste', 'sur'] } },
         cleric: { save: ['wis', 'cha'], spellcasting: 'wis', skills: { max: 2, pool: ['his', 'ins', 'med', 'per', 'rel'] } },
