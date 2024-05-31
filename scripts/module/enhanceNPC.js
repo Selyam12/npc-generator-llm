@@ -49,11 +49,11 @@ export class npcGenGPTEnhanceNPC extends Application {
         const selectedCR = this.element.find('#cr').val();
 
         if (isBackgroundChecked) {
-            LLMEngine = game.settings.get(COSTANTS.MODULE_ID, "LLMEngine")
-            if(LLMEngine=="GPT"){
+            llm = game.settings.get(COSTANTS.MODULE_ID, "LLMEngine")
+            if(llm=="GPT"){
                 this.data.gptData = await npcGenGPTLib.callAIGPT(this.initBackgroundNPC());
             }
-            if(LLMEngine=="Groq"){
+            if(llm=="Groq"){
                 this.data.gptData = await npcGenGPTLib.callAIGroq(this.initBackgroundNPC());
             }
         }
