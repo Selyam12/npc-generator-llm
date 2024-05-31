@@ -59,11 +59,12 @@ export class npcGenGPTGenerateNPC extends Application {
         button.text(game.i18n.localize("npc-generator-llm.dialog.buttonPending"));
 
         const llm = game.settings.get(COSTANTS.MODULE_ID, "LLMEngine")
+        let responseData;
         if (llm == "GPT"){
-            const responseData = await npcGenGPTLib.callAIGPT(this.initQuery());
+            responseData = await npcGenGPTLib.callAIGPT(this.initQuery());
         }
         if(llm == "Groq"){
-            const responseData = await npcGenGPTLib.callAIGroq(this.initQuery());
+            responseData = await npcGenGPTLib.callAIGroq(this.initQuery());
         }
 
         button.text(game.i18n.localize("npc-generator-llm.dialog.button"));
