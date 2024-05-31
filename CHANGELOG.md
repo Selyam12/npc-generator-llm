@@ -4,6 +4,7 @@
 * change apiKey to apiKey_GPT
 * change API_URL to API_GPT_URL
 * change GPT to LLM in titles
+* add call to Groq
 
 ## v1.5.5
 * Added optional name input

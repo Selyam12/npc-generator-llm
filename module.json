@@ -2,7 +2,7 @@
   "id": "npc-generator-gpt",
   "title": "NPC Generator (GPT) D&D 5e",
   "description": "NPC generator for D&D5e powered by ChatGPT",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "compatibility": {
     "minimum": "11",
     "verified": "11.315"
@@ -11,6 +11,10 @@
     {
       "name": "Halftone",
       "discord": "half.tone"
+    },
+    {
+      "name": "Selyam",
+      "discord": "selyam"
     }
   ],
   "relationships": {
@@ -42,11 +46,11 @@
       "path": "lang/it.json"
     }
   ],
-  "bugs": "https://github.com/Halftonex/npc-generator-gpt/issues",
+  "bugs": "https://github.com/Selyam12/npc-generator-gpt/issues",
   "flags": {
     "allowBugReporter": true
   },
-  "url": "https://github.com/Halftonex/npc-generator-gpt",
-  "manifest": "https://github.com/Halftonex/npc-generator-gpt/releases/latest/download/module.json",
-  "download": "https://github.com/Halftonex/npc-generator-gpt/releases/latest/download/module.zip"
+  "url": "https://github.com/Selyam12/npc-generator-gpt",
+  "manifest": "https://github.com/Selyam12/npc-generator-gpt/releases/latest/download/module.json",
+  "download": "https://github.com/Selyam12/npc-generator-gpt/releases/latest/download/module.zip"
 }
