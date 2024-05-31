@@ -82,9 +82,9 @@ export class npcGenGPTGenerateNPC extends Application {
             this.data.details[category] = npcGenGPTLib.getSelectedOption(dialogCategory);
         });
         const { cr, race, type, subtype } = this.data.details;
-        subtype.value = (type.value === 'commoner'||'monster') ? type.value : subtype.value;
+        subtype.value = (type.value === 'commoner'||type.value === 'monster') ? type.value : subtype.value;
         this.data.details.optionalName = this.element.find('#name').val();
-        this.data.details.sheet = (type.value === 'commoner'||'monster') ? 'npc-generator-llm.dialog.subtype.label' : 'npc-generator-llm.dialog.subtype.class';
+        this.data.details.sheet = (type.value === 'commoner'||type.value === 'monster') ? 'npc-generator-llm.dialog.subtype.label' : 'npc-generator-llm.dialog.subtype.class';
         this.data.abilities = this.generateNpcAbilities(subtype.value, cr.value);
         this.data.attributes = this.generateNpcAttributes(race.value, subtype.value, cr.value);
         this.data.skills = this.generateNpcSkills(race.value, subtype.value);
