@@ -27,6 +27,7 @@ export class npcGenGPTGenerateNPC extends Application {
     async getData(options) {
         const data = await super.getData(options);
         const categories = npcGenGPTLib.getDialogCategories(npcGenGPTDataStructure.categoryList);
+        data.type = { ...'type', option: npcGenGPTLib.getDialogOptions(arg,false) };
         data.category = categories.map(category => {
             const arg = (category.value === 'subtype') ? 'commoner' : category.value;
             return { ...category, option: npcGenGPTLib.getDialogOptions(arg, (arg !== 'type' && arg !== 'cr')) };

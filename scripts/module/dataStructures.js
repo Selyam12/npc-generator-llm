@@ -1,5 +1,5 @@
 export class npcGenGPTDataStructure {
-    static categoryList = ['type', 'gender', 'race', 'subtype', 'alignment', 'cr'];
+    static categoryList = [ 'gender', 'race', 'subtype', 'alignment', 'cr'];
     static typeList = ['commoner', 'npc','monster'];
 
     static typeOptions = {

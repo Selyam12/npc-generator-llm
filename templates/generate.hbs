@@ -3,6 +3,14 @@
         <label for="name">{{localize "npc-generator-llm.dialog.name"}}:</label>
         <input id="name" type="text" placeholder="{{localize "npc-generator-llm.dialog.ph-name"}}">
     </div>
+    <div>
+        <label for="type">{{localize "npc-generator-llm.dialog.type"}}:</label>
+        <select id="{{value}}">
+            {{#each option}}
+            <option value="{{value}}">{{#if translate}}{{localize label}}{{else}}{{label}}{{/if}}</option>
+            {{/each}}
+        </select>
+    </div>
     {{#each category}}
     <div>
         <label for="{{value}}">{{localize label}}:</label>
