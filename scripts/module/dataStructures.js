@@ -1,25 +1,32 @@
 export class npcGenGPTDataStructure {
     static categoryList = ['type', 'gender', 'race', 'subtype', 'alignment', 'cr'];
     static typeList = ['commoner', 'npc','monster'];
-    static genderList = ['male', 'female'];
+
+    static typeOptions = {
+        'commoner':[ 'gender', 'race', 'subtype', 'alignment', 'cr'],
+        'npc':[ 'gender', 'race', 'subtype', 'alignment', 'cr'],
+        'monster':[ 'gender', 'monsterList',  'alignment', 'cr'],
+    }
+    
+    static genderList = ['male', 'female','None'];
     static raceList = [
+        'human',
         'dragonborn',
         'dwarf-common', 'dwarf-hill', 'dwarf-mountain',
         'elf-common', 'elf-high', 'elf-wood', 'drow',
         'gnome-common', 'gnome-forest', 'gnome-rock',
         'halfelf',
         'halfling-common', 'halfling-lightfoot', 'halfling-stout',
-        'halforc',
-        'human',
+        'halforc',       
         'tiefling'
     ];
     static commonerList = [
-        'alchemist', 'baker', 'barkeep', 'blacksmith', 'butcher', 'carpenter',
-        'cobbler', 'farmer', 'fisherman', 'guard', 'healer', 'hermit', 'hunter',
+        'farmer','alchemist', 'baker', 'barkeep', 'blacksmith', 'butcher', 'carpenter',
+        'cobbler',  'fisherman', 'guard', 'healer', 'hermit', 'hunter',
         'innkeeper', 'merchant', 'messenger', 'miner', 'scribe', 'tailor'
     ];
     static npcList = [
-        'barbarian', 'bard', 'cleric', 'druid', 'fighter', 'monk',
+        'fighter','barbarian', 'bard', 'cleric', 'druid',  'monk',
         'paladin', 'ranger', 'rogue', 'sorcerer', 'warlock', 'wizard'
     ];
     static monsterList = [
@@ -27,6 +34,7 @@ export class npcGenGPTDataStructure {
         'fey', 'fiend', 'giant', 'humanoid', 'monstrosity', 'ooze','plant','undead'
     ];
     static alignmentList = ['lg', 'ng', 'cg', 'ln', 'n', 'cn', 'le', 'ne', 'ce'];
+    static sizeList =[ "medium", "tiny", "small","large", "huge", "gargantuan"];
 
     static crList(complete) {
         if (!complete) return [0];
@@ -53,7 +61,7 @@ export class npcGenGPTDataStructure {
         halfling: { movement: { walk: 25 }, size: "sm", senses: { darkvision: 0 }, lang: ["common", "halfling"] },
         halforc: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "orc"] },
         human: { movement: { walk: 30 }, size: "med", senses: { darkvision: 0 }, lang: ["common"] },
-        tiefling: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "infernal"] }
+        tiefling: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "infernal"] },
     };
 
     static subtypeData = {
@@ -72,6 +80,23 @@ export class npcGenGPTDataStructure {
         warlock: { save: ['wis', 'cha'], spellcasting: 'cha', skills: { max: 2, pool: ['arc', 'inv', 'dec', 'itm', 'nat', 'rel', 'his'] } },
         wizard: { save: ['int', 'wis'], spellcasting: 'int', skills: { max: 2, pool: ['arc', 'inv', 'ins', 'med', 'rel', 'his'] } }
     };
+    static monsterData = {
+        aberration: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "deep"] },
+        beast : { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: [] },
+        celestial: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "celestial"] },
+        construct: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common"] },
+        dragon: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "draconic"] },
+        elemental: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common","auran", "aquan","ignan","terran"] },             
+        fey: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "elvish"] },
+        fiend: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common","abyssal", "infernal"] },
+        giant: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "giant"] }, 
+        humanoid: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "gnoll", "orc","undercommon", "goblin"] },
+        monstrosity: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common", "inferdeepnal"] },
+        ooze: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: [] },
+        plant: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: [] },
+        undead: { movement: { walk: 30 }, size: "med", senses: { darkvision: 60 }, lang: ["common"] }
+    }
+    
 
     static skillAbilities = {
         dex: ['acr', 'slt', 'ste'],

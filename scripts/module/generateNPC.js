@@ -1,6 +1,7 @@
 import { COSTANTS, isRequesting, npcGenGPTLib } from "./lib.js";
 import { npcGenGPTDataStructure } from "./dataStructures.js";
-
+//import { ANPC } from "./commoner.js";
+import { NPCFactory} from "./npcFactory.js"
 export class npcGenGPTGenerateNPC extends Application {
     constructor() {
         super();
@@ -17,6 +18,12 @@ export class npcGenGPTGenerateNPC extends Application {
         });
     }
 
+    activateListeners(html) {
+        super.activateListeners(html);
+        html.find('#type').change(this.changeDialogCategory.bind(this));
+        html.find('#npcGenGPT_create-btn').click(this.initGeneration.bind(this));
+    }
+
     async getData(options) {
         const data = await super.getData(options);
         const categories = npcGenGPTLib.getDialogCategories(npcGenGPTDataStructure.categoryList);
@@ -27,24 +34,20 @@ export class npcGenGPTGenerateNPC extends Application {
         return data;
     }
 
-    activateListeners(html) {
-        super.activateListeners(html);
-        html.find('#type').change(this.changeDialogCategory.bind(this));
-        html.find('#npcGenGPT_create-btn').click(this.initGeneration.bind(this));
-    }
-
     changeDialogCategory() {
         const npcType = this.element.find('#type option:selected').val();
-        const generateOptions = (data, random) => {
-            return npcGenGPTLib.getDialogOptions(data, random).map(subtype => {
-                if (subtype.translate) subtype.label = game.i18n.localize(subtype.label);
-                return `<option value="${subtype.value}">${subtype.label}</option>`;
-            }).join('');
-        };
-        const label = game.i18n.localize(`npc-generator-llm.dialog.subtype.${((npcType === 'npc') ? 'class' : (npcType === 'monster') ?'type':'label')}`);
-        this.element.find("label[for='subtype']").text(`${label}:`);
-        this.element.find("#subtype").html(generateOptions(npcType, true));
-        this.element.find("#cr").html(generateOptions('cr', npcType === 'npc'));
+        const npc = NPCFactory.createInstance(npcType);
+        npc.setHtmlElement(this.element);
+        // const generateOptions = (data, random) => {
+        //     return npc.getDialogOptions(data, random).map(subtype => {
+        //         if (subtype.translate) subtype.label = game.i18n.localize(subtype.label);
+        //         return `<option value="${subtype.value}">${subtype.label}</option>`;
+        //     }).join('');
+        // };
+        // const label = game.i18n.localize(`npc-generator-llm.dialog.subtype.${((npcType === 'npc') ? 'class' : (npcType === 'monster') ?'type':'label')}`);
+        // this.element.find("label[for='subtype']").text(`${label}:`);
+        // this.element.find("#subtype").html(generateOptions(npcType, true));
+        // this.element.find("#cr").html(generateOptions('cr', npcType === 'npc'));
     }
 
     async initGeneration() {
@@ -77,12 +80,14 @@ export class npcGenGPTGenerateNPC extends Application {
 
     generateDialogData() {
         this.data.details = {};
+
         npcGenGPTDataStructure.categoryList.forEach(category => {
             const dialogCategory = this.element.find(`#${category}`);
             this.data.details[category] = npcGenGPTLib.getSelectedOption(dialogCategory);
         });
         const { cr, race, type, subtype } = this.data.details;
-        subtype.value = (type.value === 'commoner'||type.value === 'monster') ? type.value : subtype.value;
+
+        subtype.value = (type.value === 'commoner') ? type.value : subtype.value;
         this.data.details.optionalName = this.element.find('#name').val();
         this.data.details.sheet = (type.value === 'commoner') ? 'npc-generator-llm.dialog.subtype.label' : (type.value === 'monster')?'npc-generator-llm.dialog.subtype.type':'npc-generator-llm.dialog.subtype.class';
         this.data.abilities = this.generateNpcAbilities(subtype.value, cr.value);

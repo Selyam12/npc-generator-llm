@@ -94,9 +94,10 @@
             "label": "Job",
             "class": "Class",
             "type":"Type",
+            "size":"Size",
             "subrace": "Subrace"
         },
-        "commoner": {
+        "job": {
             "alchemist": "Alchemist",
             "baker": "Baker",
             "barkeep": "Barkeep",
@@ -117,7 +118,7 @@
             "scribe": "Scribe",
             "tailor": "Tailor"
         },
-        "monster": {
+        "monstertype": {
             "aberration": "Aberration",
             "beast": "Beast",
             "celestial": "Celestial",
@@ -133,7 +134,7 @@
             "plant": "Plant",
             "undead": "Undead"           
         },
-        "npc": {
+        "class": {
             "barbarian": "Barbarian",
             "bard": "Bard",
             "cleric": "Cleric",

@@ -161,6 +161,7 @@ export class npcGenGPTLib {
         const outputCost = groqCostPrefix*0.002 / (1000 / gptData.usage.completion_tokens);
         console.warn(COSTANTS.LOG_PREFIX, 'API call cost:', `$${inputCost + outputCost}`);
     }
+
     static getDialogCategories() {
         return npcGenGPTDataStructure.categoryList.map(category => {
             return { value: category, label: `npc-generator-llm.dialog.${category}.label` }
