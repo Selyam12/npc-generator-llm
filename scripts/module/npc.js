@@ -3,7 +3,7 @@ import { npcGenGPTDataStructure } from "./dataStructures.js";
 import { ANPC } from "./commoner.js";
 
 export class NPC extends ANPC  {  
-    static options = ['gender', 'race', 'class', 'alignment', 'cr'];
+    options = ['gender', 'race', 'class', 'alignment', 'cr'];
 
     constructor() {    
             super()
@@ -25,7 +25,7 @@ export class NPC extends ANPC  {
         switch(category)
         {
             case this.type:
-                return NPC.options;
+                return this.options;
             case "gender":
                 return npcGenGPTDataStructure.genderList;
             case "race":
@@ -38,19 +38,7 @@ export class NPC extends ANPC  {
                 return npcGenGPTDataStructure.crList;
         }
     }
-    setHtmlElement(npcgen_element)
-    {
-        // const generateOptions = (data, random) => {
-        //     return npc.getDialogOptions(data, random).map(subtype => {
-        //         if (subtype.translate) subtype.label = game.i18n.localize(subtype.label);
-        //         return `<option value="${subtype.value}">${subtype.label}</option>`;
-        //     }).join('');
-        // };
-        const label = game.i18n.localize(`npc-generator-llm.dialog.subtype.${( 'class' )}`);
-        npcgen_element.find("label[for='subtype']").text(`${label}:`);
-        npcgen_element.find("#subtype").html(this.generateOptions("class", true));
-        npcgen_element.find("#cr").html(this.generateOptions('cr', true));
-    }
+    
 
 
 

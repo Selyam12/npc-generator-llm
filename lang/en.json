@@ -91,13 +91,14 @@
             "tiefling": "Tiefling"
         },
         "subtype": {
-            "label": "Job",
+            "label": "subtype",
+            "job":"Job",
             "class": "Class",
-            "type":"Type",
             "size":"Size",
             "subrace": "Subrace"
         },
         "job": {
+            "label":"Job",
             "alchemist": "Alchemist",
             "baker": "Baker",
             "barkeep": "Barkeep",
@@ -119,6 +120,7 @@
             "tailor": "Tailor"
         },
         "monstertype": {
+            "label":"Monster Type",
             "aberration": "Aberration",
             "beast": "Beast",
             "celestial": "Celestial",
@@ -135,6 +137,7 @@
             "undead": "Undead"           
         },
         "class": {
+            "label":"Class",
             "barbarian": "Barbarian",
             "bard": "Bard",
             "cleric": "Cleric",
@@ -147,6 +150,15 @@
             "sorcerer": "Sorcerer",
             "warlock": "Warlock",
             "wizard": "Wizard"
+        },
+        "size": {
+            "label":"Size",
+            "medium": "Medium",
+            "tiny": "Tiny",            
+            "small": "Small",
+            "large": "Large",
+            "huge": "Huge",
+            "gargantuan": "Gargantuan"
         },
         "cr": {
             "label": "CR"

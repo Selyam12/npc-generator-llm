@@ -3,7 +3,7 @@ import { npcGenGPTDataStructure } from "./dataStructures.js";
 import { ANPC } from "./commoner.js";
 
 export class Monster extends ANPC  {  
-    static options = ['gender', 'monstertype', 'size', 'alignment', 'cr'];
+    options = ['gender', 'monstertype', 'size', 'alignment', 'cr'];
 
     constructor() {    
             super()
@@ -25,10 +25,10 @@ export class Monster extends ANPC  {
         switch(category)
         {
             case this.type:
-                return Monster.options;
+                return this.options;
             case "gender":
                 return npcGenGPTDataStructure.genderList;
-            case "monstertype":
+            case "race":
                 return npcGenGPTDataStructure.monsterList;
             case "size":
                 return npcGenGPTDataStructure.sizeList ;
@@ -38,24 +38,7 @@ export class Monster extends ANPC  {
                 return npcGenGPTDataStructure.crList;
         }
     }
-    setHtmlElement(npcgen_element)
-    {
-        // const generateOptions = (data, random) => {
-        //     return npc.getDialogOptions(data, random).map(subtype => {
-        //         if (subtype.translate) subtype.label = game.i18n.localize(subtype.label);
-        //         return `<option value="${subtype.value}">${subtype.label}</option>`;
-        //     }).join('');
-        // };
-        const label = game.i18n.localize(`npc-generator-llm.dialog.subtype.${( 'class' )}`);
-        npcgen_element.find("label[for='subtype']").text(`${label}:`);
-        npcgen_element.find("#subtype").html(this.generateOptions("class", true));
-
-        const label_size = game.i18n.localize(`npc-generator-llm.dialog.subtype.${( 'size' )}`);
-        npcgen_element.find("label[for='subtype']").text(`${label_size}:`);
-        npcgen_element.find("#subtype").html(this.generateOptions("size", true));
-
-        npcgen_element.find("#cr").html(this.generateOptions('cr', true));
-    }
+   
 
 
 

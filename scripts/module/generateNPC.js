@@ -26,18 +26,21 @@ export class npcGenGPTGenerateNPC extends Application {
 
     async getData(options) {
         const data = await super.getData(options);
-        const categories = npcGenGPTLib.getDialogCategories(npcGenGPTDataStructure.categoryList);
-        data.type = { ...'type', option: npcGenGPTLib.getDialogOptions(arg,false) };
-        data.category = categories.map(category => {
-            const arg = (category.value === 'subtype') ? 'commoner' : category.value;
-            return { ...category, option: npcGenGPTLib.getDialogOptions(arg, (arg !== 'type' && arg !== 'cr')) };
-        });
+        
+        data.type =  { value: "type", label: `npc-generator-llm.dialog.type.label`, option: npcGenGPTLib.getDialogOptions('type',false) };
+        data.category =   NPCFactory.createInstance('commoner').getDialogCategories();
+        //const categories = npcGenGPTLib.getDialogCategories(npcGenGPTDataStructure.categoryList);
+        // data.category = categories.map(category => {
+        //     const arg = (category.value === 'subtype') ? 'commoner' : category.value;
+        //     return { ...category, option: npcGenGPTLib.getDialogOptions(arg, (arg !== 'type' && arg !== 'cr')) };
+        // });
         return data;
     }
 
     changeDialogCategory() {
         const npcType = this.element.find('#type option:selected').val();
         const npc = NPCFactory.createInstance(npcType);
+        
         npc.setHtmlElement(this.element);
         // const generateOptions = (data, random) => {
         //     return npc.getDialogOptions(data, random).map(subtype => {
