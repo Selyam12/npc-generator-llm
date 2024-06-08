@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "checkJs": true,
+      "baseUrl": "./",
+      "paths": {
+        "*": ["node_modules/*"],
+        "foundry-vtt/*": ["/home/marc/src/foundryvtt/*"]
+      }
+    },
+    "include": [
+      "scripts/**/*.js",
+      "styles/**/*.css",
+      "lang/**/*.json",
+      "templates/**/*.hbs",
+      "/home/marc/src/foundryvtt/**/*"
+    ]
+  }
+  

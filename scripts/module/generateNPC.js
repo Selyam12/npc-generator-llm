@@ -60,7 +60,7 @@ export class npcGenGPTGenerateNPC extends Application {
             return;
         }
 
-        this.generateDialogData();
+        const npc = this.generateDialogData();
 
         const button = this.element.find('#npcGenGPT_create-btn');
         button.text(game.i18n.localize("npc-generator-llm.dialog.buttonPending"));
@@ -68,10 +68,10 @@ export class npcGenGPTGenerateNPC extends Application {
         const llm = game.settings.get(COSTANTS.MODULE_ID, "LLMEngine")
         let responseData;
         if (llm == "GPT"){
-            responseData = await npcGenGPTLib.callAIGPT(this.initQuery());
+            responseData = await npcGenGPTLib.callAIGPT(npc.initQuery());
         }
         if(llm == "Groq"){
-            responseData = await npcGenGPTLib.callAIGroq(this.initQuery());
+            responseData = await npcGenGPTLib.callAIGroq(npc.initQuery());
         }
 
         button.text(game.i18n.localize("npc-generator-llm.dialog.button"));
@@ -85,7 +85,14 @@ export class npcGenGPTGenerateNPC extends Application {
     generateDialogData() {
         this.data.details = {};
 
-        npcGenGPTDataStructure.categoryList.forEach(category => {
+        const npcType = this.element.find('#type option:selected').val();
+        const npc = NPCFactory.createInstance(npcType);   
+
+       npc.parseHTML(this.element);
+
+       return npc;
+
+       /*  npcGenGPTDataStructure.categoryList.forEach(category => {
             const dialogCategory = this.element.find(`#${category}`);
             this.data.details[category] = npcGenGPTLib.getSelectedOption(dialogCategory);
         });
@@ -98,7 +105,7 @@ export class npcGenGPTGenerateNPC extends Application {
         this.data.attributes = this.generateNpcAttributes(race.value, subtype.value, cr.value);
         this.data.skills = this.generateNpcSkills(race.value, subtype.value);
         this.data.traits = this.generateNpcTraits(race.value, subtype.value);
-        this.data.currency = npcGenGPTLib.getNpcCurrency(cr.value);
+        this.data.currency = npcGenGPTLib.getNpcCurrency(cr.value); */
     }
 
     initQuery() {

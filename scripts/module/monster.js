@@ -1,6 +1,6 @@
 import { COSTANTS, isRequesting, npcGenGPTLib } from "./lib.js";
 import { npcGenGPTDataStructure } from "./dataStructures.js";
-import { ANPC } from "./commoner.js";
+import { ANPC } from "./ANPC.js";
 
 export class Monster extends ANPC  {  
     options = ['gender', 'monstertype', 'size', 'alignment', 'cr'];
@@ -40,7 +40,12 @@ export class Monster extends ANPC  {
     }
    
 
+    parseHTML(npcgen_element)
+    {
+        super.parseHTML(npcgen_element);
 
+        this.details["sheet"] =  'npc-generator-llm.dialog.subtype.type';
+    }
 
 
 }

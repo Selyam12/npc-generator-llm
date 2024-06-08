@@ -1,0 +1,205 @@
+{
+    "npc-generator-llm.settings": {
+        "hideAlignment": {
+            "name": "Nascondi Allineamento",
+            "hint": "Sostituisce l'allineamento con \"Sconosciuto\" nel caso in cui lo si volesse nascondere ai giocatori. L'allineamento verrà comunque importato nella sezione segreta all'interno della \"Biografia\"."
+        },
+        "movementUnits": {
+            "name": "Usa Sistema Metrico",
+            "hint": "Se attivato, usa il sistema metrico invece che quello imperiale come sistema di misura per il movimento del personaggio generato."
+        },
+        "systemSource": "Sistema",
+        "itemsComp": {
+            "name": "Compendio Oggetti",
+            "hint": "Il compendio degli oggetti che verrà utilizzato per popolare la scheda del personaggio."
+        },
+        "spellsComp": {
+            "name": "Compendio Incantesimi",
+            "hint": "Il compendio degli incantesimi che verrà utilizzato per popolare la scheda del personaggio."
+        },
+        "LLMEngine": {
+            "name": "LLM engine",
+            "hint": "The LLM engine to be used [Groq(Mixtral) or GPT(3.5)]."
+        },
+        "fuzzyThreshold": {
+            "name": "Soglia Ricerca Oggetti e Incantesimi",
+            "hint": "Il punto in cui l'algoritmo di corrispondenza si arrende. Una soglia di 0.0 richiede una corrispondenza perfetta (sia delle lettere che della posizione), una soglia di 1.0 accetta qualsiasi risultato."
+        },
+        "apiKey_GPT": {
+            "name": "Chiave API GPT",
+            "hint": "La tua chiave API privata di OpenAI. [https://platform.openai.com/account/api-keys]"
+        },
+        "apiKey_Groq": {
+            "name": "Chiave API Groq",
+            "hint": "La tua chiave API privata di Groq. [https://console.groq.com/keys]"
+        },
+        "temperature": {
+            "name": "Temperatura",
+            "hint": "Questo parametro influisce sulla \"creatività\" delle risposte del modello. Valori elevati (vicini a 1) rendono le risposte più casuali, mentre valori bassi (vicini a 0) le rendono più deterministe e focalizzate. Un valore alto potrebbe portare a una varietà maggiore nelle risposte, ma potrebbe anche produrre output meno prevedibili."
+        },
+        "top_p": {
+            "name": "Top P",
+            "hint": "Anche noto come \"nucleus sampling\", questo parametro limita il pool di parole o token che il modello potrebbe scegliere basandosi sulla probabilità. Ad esempio, con un valore di top_p=0.9, il modello sceglierà dalla \"top\" 90% delle parole o token previsti, escludendo opzioni meno probabili. Questo può aiutare a bilanciare tra diversità e coerenza nell'output."
+        },
+        "freq_penality": {
+            "name": "Penalità di Frequenza",
+            "hint": "Questo parametro può essere utilizzato per disincentivare risposte che appaiono troppo spesso o sono troppo comuni. Valori positivi puniscono l'uso di parole frequenti, portando a risposte potenzialmente più originali, mentre valori negativi incentivano l'uso di parole frequenti."
+        },
+        "pres_penality": {
+            "name": "Penalità di Presenza",
+            "hint": "Questo parametro influisce sulla tendenza del modello a includere o escludere specifiche parole o concetti nella risposta. Valori positivi incentivano l'inclusione di specifici concetti, mentre valori negativi li disincentivano."
+        }
+    },
+    "npc-generator-llm.button": "Genera NPC",
+    "npc-generator-llm.dialog": {
+        "title": "NGG - Preferenze",
+        "button": "Crea NPC",
+        "buttonPending": "Connessione...",
+        "random": "Casuale",
+        "name": "Nome",
+        "ph-name": "Opzionale",
+        "type": {
+            "label": "Tipologia",
+            "commoner": "Plebeo",
+            "npc": "NPC",
+            "monster": "Mostro"
+        },
+        "gender": {
+            "label": "Sesso",
+            "male": "Maschio",
+            "female": "Femmina"
+        },
+        "race": {
+            "label": "Razza",
+            "dragonborn": "Dragonide",
+            "dwarf-common": "Nano",
+            "dwarf-hill": "Nano delle Colline",
+            "dwarf-mountain": "Nano delle Montagne",
+            "elf-common": "Elfo",
+            "elf-high": "Elfo Alto",
+            "elf-wood": "Elfo dei Boschi",
+            "drow": "Elfo Oscuro",
+            "gnome-common": "Gnomo",
+            "gnome-forest": "Gnomo delle Foreste",
+            "gnome-rock": "Gnomo delle Rocce",
+            "halfelf": "Mezzelfo",
+            "halfling-common": "Halfling",
+            "halfling-lightfoot": "Halfling Piedelesto",
+            "halfling-stout": "Halfling Tozzo",
+            "halforc": "Mezzorco",
+            "human": "Umano",
+            "tiefling": "Tiefling"
+        },
+        "subtype": {
+            "label": "Lavoro",
+            "class": "Classe",
+            "type":"Typo",
+            "subrace": "Sottorazza"
+        },
+        "commoner": {
+            "alchemist": "Alchimista",
+            "baker": "Fornaio",
+            "barkeep": "Barista",
+            "blacksmith": "Fabbro",
+            "butcher": "Macellaio",
+            "carpenter": "Falegname",
+            "cobbler": "Calzolaio",
+            "farmer": "Contadino",
+            "fisherman": "Pescatore",
+            "guard": "Guardia",
+            "healer": "Curatore",
+            "hermit": "Eremita",
+            "hunter": "Cacciatore",
+            "innkeeper": "Locandiere",
+            "merchant": "Mercante",
+            "messenger": "Messaggero",
+            "miner": "Minatore",
+            "scribe": "Scriba",
+            "tailor": "Sarto"
+        },
+        "monster": {
+            "aberration": "Aberration",
+            "beast": "Beast",
+            "celestial": "Celestial",
+            "construct": "Construct",
+            "dragon": "Dragon",
+            "elemental": "Elemental",
+            "fey": "Fey",
+            "fiend": "Fiend",
+            "giant": "Giant",
+            "humanoid": "Humanoid",
+            "monstrosity": "Monstrosity",
+            "ooze": "Ooze",
+            "plant": "Plant",
+            "undead": "Undead"      
+        },
+        "npc": {
+            "barbarian": "Barbaro",
+            "bard": "Bardo",
+            "cleric": "Chierico",
+            "druid": "Druido",
+            "fighter": "Guerriero",
+            "monk": "Monaco",
+            "paladin": "Paladino",
+            "ranger": "Ranger",
+            "rogue": "Ladro",
+            "sorcerer": "Stregone",
+            "warlock": "Warlock",
+            "wizard": "Mago"
+        },
+        "cr": {
+            "label": "CR"
+        },
+        "alignment": {
+            "label": "Allineamento",
+            "lg": "Legale Buono",
+            "ng": "Neutrale Buono",
+            "cg": "Caotico Buono",
+            "ln": "Legale Neutrale",
+            "n": "Neutrale Puro",
+            "cn": "Caotico Neutrale",
+            "le": "Legale Malvagio",
+            "ne": "Neutrale Malvagio",
+            "ce": "Caotico Malvagio"
+        }
+    },
+    "npc-generator-llm.enhance": {
+        "title": "NGG - Preferenze",
+        "button": "Migliora NPC",
+        "buttonPending": "Connessione...",
+        "radio": {
+            "background": "Biografia",
+            "enhance": "Modifica"
+        }
+    },
+    "npc-generator-llm.status": {
+        "done": "Generazione NPC '{npcName}' Completata!",
+        "enhance": "Modifica NPC '{npcName}' Completata!",
+        "error": "Richiesta Rifiutata! Attendi qualche secondo e riprova. (Consulta la console (F12) per maggiori dettagli)",
+        "error2": "Errore nell'elaborazione della risposta di ChatGPT! Riprovare.",
+        "error3": "Errore nella creazione del NPC! Riprovare.",
+        "error4": "Non disponi di credito nel tuo account OpenAI. Visitare https://platform.openai.com/account/billing/overview",
+        "wait": "Per favore, attendi. Una richiesta è già in fase di elaborazione."
+    },
+    "npc-generator-llm.query": {
+        "generate": "Crea un NPC {userQuery} per D&D 5 Edizione con valori in italiano. Struttura:",
+        "enhance": "Scrivi una biografia per l'NPC di D&D 5 Edizione {userQuery} con valori in italiano. Struttura:",
+        "name": "Nome",
+        "background": "Breve biografia",
+        "appearance": "Descrizione fisica",
+        "roleplaying": "Consigli interpretazione",
+        "readaloud": "Descrizione evocativa che il GM leggerà ai giocatori",
+        "equip": "Equipaggiamento",
+        "spells": "Incantesimi"
+    },
+    "npc-generator-llm.sheet": {
+        "appearance": "Aspetto",
+        "background": "Biografia",
+        "alignment": "Allineamento",
+        "unknown": "Sconosciuto",
+        "roleplaying": "Interpretazione",
+        "readaloud": "Leggi ai Giocatori",
+        "equip": "Equipaggiamento",
+        "spells": "Incantesimi"
+    }
+}
