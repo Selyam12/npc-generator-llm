@@ -31,7 +31,7 @@ export class Monster extends ANPC  {
                 return this.options;
             case "gender":
                 return npcGenGPTDataStructure.genderList;
-            case "race":
+            case "monstertype":
                 return npcGenGPTDataStructure.monsterList;
             case "size":
                 return npcGenGPTDataStructure.sizeList ;
@@ -66,12 +66,19 @@ export class Monster extends ANPC  {
         this.data.details["sheet"] =  'npc-generator-llm.dialog.subtype.label' ;
 
         this.data.abilities = this.generateNpcAbilities(this.monsterData, this.crV);
-        this.data.attributes = this.generateNpcAttributes(this.monstertypeV,  this.crV);
+        this.data.attributes = this.generateNpcAttributes(this.monstertypeV,  this.crV,this.sizeV);
         this.data.skills = this.generateNpcSkills();
-        this.data.traits = this.generateNpcTraits(this.monstertypeV);
+        this.data.traits = this.generateNpcTraits(this.monstertypeV,this.sizeV);
         this.data.currency = npcGenGPTLib.getNpcCurrency(this.crV);
 
         return this.data;
+    }
+
+    setHtmlElements(npcgen_element)
+    {
+        super.setHtmlElements(npcgen_element);
+        npcgen_element.find("#cr").html(this.generateOptions('cr', true));
+
     }
 
     generateNpcAbilities(npcStats, npcCR) {
@@ -79,6 +86,18 @@ export class Monster extends ANPC  {
 
         const npcAbilities = npcGenGPTLib.getNpcAbilities(profAbilities);
         return npcGenGPTLib.scaleAbilities(npcAbilities, npcCR)
+    }
+    
+    generateNpcAttributes(monstertypeV,  npcCR,npcSize) {
+        const raceData = npcGenGPTDataStructure.monsterData[monstertypeV];
+        const measureUnits = game.settings.get(COSTANTS.MODULE_ID, "movementUnits") ? 'm' : 'ft';
+        return {
+            hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, npcSize),
+            ac: npcGenGPTLib.getNpcAC(npcCR),
+           // spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
+            movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
+            senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
+        }
     }
 
     generateNpcSkills() {
@@ -90,7 +109,14 @@ export class Monster extends ANPC  {
             return acc;
         }, {});
     }
-
+    generateNpcTraits(monstertypeV,npcSize) {
+        const languages = (npcGenGPTDataStructure.monsterData[monstertypeV].lang || []).slice();
+        
+        return {
+            languages: languages,
+            size: npcSize
+        }
+    }
     initQuery() {
         const _optionalName = this.data.details.optionalName;
         const _gender = this.gender;
@@ -102,5 +128,31 @@ export class Monster extends ANPC  {
         let options = `${_gender}, ${_monstertype}, ${_size}, ${_alignment}, challenge rating ${_cr}`;
         if (_optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${_optionalName}) ${options}`; 
         return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
+    }
+
+    async UpdateActor(actor,details,fakeAlign,bioContent,abilities,attributes,skills,traits,currency)
+    {
+        await actor.update({
+            system: {
+                details: {
+                    source: details.source,
+                    cr: details.cr.value,
+                    alignment: fakeAlign,
+                    biography: { value: bioContent },
+                    type: { value: details.monstertype.value }
+                },
+                traits: { size: details.size.value, languages: { value: traits.languages } },
+                abilities: abilities,
+                attributes: {
+                    hp: attributes.hp,
+                    'ac.value': attributes.ac,
+                    movement: attributes.movement,
+                    senses: attributes.senses,
+                    spellcasting: attributes.spellcasting
+                },
+                skills: skills,
+                currency: currency
+            }
+        });
     }
 }

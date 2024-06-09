@@ -41,7 +41,7 @@ export class npcGenGPTGenerateNPC extends Application {
         const npcType = this.element.find('#type option:selected').val();
         const npc = NPCFactory.createInstance(npcType);
         
-        npc.setHtmlElement(this.element);
+        npc.setHtmlElements(this.element);
         // const generateOptions = (data, random) => {
         //     return npc.getDialogOptions(data, random).map(subtype => {
         //         if (subtype.translate) subtype.label = game.i18n.localize(subtype.label);

@@ -70,9 +70,9 @@ export class Commoner extends ANPC  {
         return this.data;
     }
 
-    setHtmlElement(npcgen_element)
+    setHtmlElements(npcgen_element)
     {
-        super.setHtmlElement(npcgen_element);
+        super.setHtmlElements(npcgen_element);
         npcgen_element.find("#cr").html(this.generateOptions('cr', false));
 
     }

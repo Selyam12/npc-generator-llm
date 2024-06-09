@@ -16,22 +16,7 @@ export class ANPC  {
         this.data.details = {};
         this.options = [];
     }
-    mergeGptData(gptData) {
-        const { name: gptName, spells, items, appearance, background, roleplaying, readaloud } = gptData;
-        this.data.name = gptName;
-        this.data.spells = spells;
-        this.data.items = items;
-        this.data.details = {
-            ...this.data.details,
-            source: "NPC Generator (GPT)",
-            biography: {
-                appearance: appearance,
-                background: background,
-                roleplaying: roleplaying,
-                readaloud: readaloud
-            }
-        };
-    }
+   
     getType()
     {
         throw new Error("Method 'getType()' must be implemented.");
@@ -46,12 +31,16 @@ export class ANPC  {
         throw new Error("Method 'initQuery()' must be implemented.");
     }
     
-
-    setHtmlElement(npcgen_element)
+    setHtmlElements(npcgen_element)
+    {
+        this.setHtmlElement_activity(npcgen_element);
+        this.setHtmlElement_race(npcgen_element);
+    }
+    setHtmlElement_activity(npcgen_element)
     {
         let subtypeLabelElement;
         let subtypeSelectElement;
-        
+        const index  =2;
         // find last_activity 
         for(const [key, value] of Object.entries(ANPC.dico_activity)) {
             subtypeLabelElement = npcgen_element.find(`label[for='${value}']`);
@@ -63,20 +52,50 @@ export class ANPC  {
         
         if ( subtypeLabelElement.length  && subtypeSelectElement.length ){
              // Update the 'for' attribute of the label
-            subtypeLabelElement.attr('for', this.options[2]);
+            subtypeLabelElement.attr('for', this.options[index]);
 
             // Update the text content of the label
-            const label = game.i18n.localize(`npc-generator-llm.dialog.${ this.options[2]}.label`);
+            const label = game.i18n.localize(`npc-generator-llm.dialog.${ this.options[index]}.label`);
             subtypeLabelElement.text(`${label}:`); 
 
              // Update the 'id' of the select element
-            subtypeSelectElement.attr('id', this.options[2]);
+            subtypeSelectElement.attr('id', this.options[index]);
              // Update the 'id' of the select element
-            subtypeSelectElement.html(this.generateOptions(this.options[2], true));
+            subtypeSelectElement.html(this.generateOptions(this.options[index], true));
         }
 
     }
 
+    setHtmlElement_race(npcgen_element)
+    {
+        let subtypeLabelElement;
+        let subtypeSelectElement;
+        const index = 1;
+
+        // find last_activity 
+        for(const [key, value] of Object.entries(ANPC.dico_race)) {
+            subtypeLabelElement = npcgen_element.find(`label[for='${value}']`);
+            subtypeSelectElement = npcgen_element.find(`#${value}`); 
+            
+            if ( subtypeLabelElement.length  && subtypeSelectElement.length )
+                break;
+        } 
+        
+        if ( subtypeLabelElement.length  && subtypeSelectElement.length ){
+             // Update the 'for' attribute of the label
+            subtypeLabelElement.attr('for', this.options[index]);
+
+            // Update the text content of the label
+            const label = game.i18n.localize(`npc-generator-llm.dialog.${ this.options[index]}.label`);
+            subtypeLabelElement.text(`${label}:`); 
+
+             // Update the 'id' of the select element
+            subtypeSelectElement.attr('id', this.options[index]);
+             // Update the 'id' of the select element
+            subtypeSelectElement.html(this.generateOptions(this.options[index], true));
+        }
+
+    }
     
     parseHTML(npcgen_element)
     {
@@ -163,6 +182,24 @@ export class ANPC  {
             size: npcGenGPTDataStructure.raceData[npcRace].size
         }
     }
+
+    mergeGptData(gptData) {
+        const { name: gptName, spells, items, appearance, background, roleplaying, readaloud } = gptData;
+        this.data.name = gptName;
+        this.data.spells = spells;
+        this.data.items = items;
+        this.data.details = {
+            ...this.data.details,
+            source: "NPC Generator (GPT)",
+            biography: {
+                appearance: appearance,
+                background: background,
+                roleplaying: roleplaying,
+                readaloud: readaloud
+            }
+        };
+    }
+
     async createNPC() {
         try {
             const { abilities, attributes, details, name, skills, traits, currency } = this.data;
