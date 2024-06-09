@@ -73,6 +73,9 @@ export class npcGenGPTGenerateNPC extends Application {
         if(llm == "Groq"){
             responseData = await npcGenGPTLib.callAIGroq(npc.initQuery());
         }
+        if(llm == "Mistral"){
+            responseData = await npcGenGPTLib.callAIMistral(npc.initQuery());
+        }
 
         button.text(game.i18n.localize("npc-generator-llm.dialog.button"));
 

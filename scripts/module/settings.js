@@ -64,7 +64,8 @@ export class npcGenGPTSettings {
 			type: String,
 			choices: {
 				"Groq": "Groq",
-				"GPT": "GPT"
+				"GPT": "GPT",
+				"Mistral": "Mistral"
 			}
 		});
 		game.settings.register(COSTANTS.MODULE_ID, "apiKey_GPT", {
@@ -78,6 +79,14 @@ export class npcGenGPTSettings {
 		game.settings.register(COSTANTS.MODULE_ID, "apiKey_Groq", {
 			name: game.i18n.localize("npc-generator-llm.settings.apiKey_Groq.name"),
 			hint: game.i18n.localize("npc-generator-llm.settings.apiKey_Groq.hint"),
+			scope: "client",
+			config: true,
+			default: '',
+			type: String
+		});
+		game.settings.register(COSTANTS.MODULE_ID, "apiKey_Mistral", {
+			name: game.i18n.localize("npc-generator-llm.settings.apiKey_Mistral.name"),
+			hint: game.i18n.localize("npc-generator-llm.settings.apiKey_Mistral.hint"),
 			scope: "client",
 			config: true,
 			default: '',

@@ -19,7 +19,7 @@
         },
         "LLMEngine": {
             "name": "LLM engine",
-            "hint": "The LLM engine to be used [Groq(Mixtral) or GPT(3.5)]."
+            "hint": "The LLM engine to be used [Groq(Mixtral), GPT(3.5), Mistral(large-latest),]."
         },
         "fuzzyThreshold": {
             "name": "Item and Spell Search Threshold",
@@ -30,8 +30,12 @@
             "hint": "Your private OpenAI API key. [https://platform.openai.com/account/api-keys]"
         },
         "apiKey_Groq": {
-            "name": "API Key Groq",
+            "name": "API Key Groq AI",
             "hint": "Your private Groq API key. [https://console.groq.com/keys]"
+        },
+        "apiKey_Mistral": {
+            "name": "API Key Mistral AI",
+            "hint": "Your private Mistral API key. [https://console.mistral.ai/api-keys/]"
         },
         "temperature": {
             "name": "Temperature",

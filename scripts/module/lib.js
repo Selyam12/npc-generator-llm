@@ -6,6 +6,7 @@ export const COSTANTS = {
     LOG_PREFIX: "NPC Generator (LLM) |",
     API_GPT_URL: "https://api.openai.com/v1/chat/completions",
     API_GROQ_URL: "https://api.groq.com/openai/v1/chat/completions",
+    API_MISTRAL_URL: "https://api.mistral.ai/v1/chat/completions",
     TEMPLATE: {
         DIALOG: 'generate.hbs',
         ENHANCE: 'enhance.hbs',
@@ -75,7 +76,34 @@ export class npcGenGPTLib {
             isRequesting = false;
         }
     }
+    static async callAIMistral(content) {
+        isRequesting = true;
 
+        const requestConfig = this.getRequestConfig_Mistral(content);
+
+        console.log(`${COSTANTS.LOG_PREFIX} Sending Request`);
+
+        try {
+            const response = await fetch(COSTANTS.API_MISTRAL_URL, requestConfig);
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                const errorMsg = (typeof responseData.error.message === 'string') ? responseData.error.message : responseData.error.message.message;
+                if (response.status == 429) 
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error4")}`);
+                else
+                    ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error")}`);
+                throw new Error(`${response.status} | Message: ${errorMsg}`);
+            }
+
+            this.logGroqDataCost(responseData);
+            return this.convertGPTData(responseData)
+        } catch (error) {
+            console.error(error);
+        } finally {
+            isRequesting = false;
+        }
+    }
 
     static getRequestConfig(content) {
         return {
@@ -123,6 +151,29 @@ export class npcGenGPTLib {
             }
         };
     }
+    static getRequestConfig_Mistral(content) {
+        return {
+            method: "POST",
+            body: JSON.stringify({                
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": content
+                    }
+                ],
+                "model": "mistral-large-latest",
+                "temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
+                "top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
+                "frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
+                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${game.settings.get(COSTANTS.MODULE_ID, "apiKey_Mistral")}`
+            }
+        };
+    }
     static convertGPTData(content) {
         const gptContent = content.choices[0].message.content;
         const regex = /```json([\s\S]*?)```/;
@@ -162,6 +213,13 @@ export class npcGenGPTLib {
         console.warn(COSTANTS.LOG_PREFIX, 'API call cost:', `$${inputCost + outputCost}`);
     }
 
+    static logMistralDataCost(gptData) {
+        //https://mistral.ai/fr/technology/#:~:text=%241,%2F1M%20tokens
+        const mistralCostPrefix = 4;
+        const inputCost =mistralCostPrefix* 0.001 / (1000 / gptData.usage.prompt_tokens);
+        const outputCost = mistralCostPrefix*0.002 / (1000 / gptData.usage.completion_tokens);
+        console.warn(COSTANTS.LOG_PREFIX, 'API call cost:', `$${inputCost + outputCost}`);
+        }
     static getDialogCategories() {
         return npcGenGPTDataStructure.categoryList.map(category => {
             return { value: category, label: `npc-generator-llm.dialog.${category}.label` }
