@@ -57,6 +57,10 @@
     "npc-generator-llm.button": "Generate NPC",
     "npc-generator-llm.dialog": {
         "title": "NGG - Preferences",
+        "background":{
+            "label":"Background",
+            "placeholder":"write here"
+        },
         "button": "Create NPC",
         "buttonPending": "Connecting...",
         "random": "Random",
@@ -207,7 +211,8 @@
         "roleplaying": "Roleplaying tips",
         "readaloud": "Evocative description that the GM will read to the players",
         "equip": "Equipment",
-        "spells": "Spells"
+        "spells": "Spells",
+        "hint": "knowing that the npc has at least the following info"
     },
     "npc-generator-llm.sheet": {
         "appearance": "Appearance",

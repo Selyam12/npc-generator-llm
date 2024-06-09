@@ -115,8 +115,17 @@ export class NPC extends ANPC  {
         const _class = this.class;
         const _alignment = this.alignment;
         const _cr = this.cr;
+        const _bck =  this.data.details.prompt;
         //const { optionalName, gender, race, subtype, alignment } = this.data.details;
-        let options = `${_gender}, ${_race}, ${_class}, ${_alignment},challenge rating ${_cr}`;
+        let options;
+        if(_bck!="")
+            {
+            options = `${_gender}, ${_race}, ${_class}, ${_alignment}, challenge rating ${_cr}, ${game.i18n.localize("npc-generator-llm.query.hint")} ${_bck}`;
+            }
+            else
+            {
+                options = `${_gender}, ${_race}, ${_class}, ${_alignment}, challenge rating ${_cr}`;
+            }
         if (_optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${_optionalName}) ${options}`; 
         return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
     }

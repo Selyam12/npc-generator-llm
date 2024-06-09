@@ -1,0 +1,227 @@
+{
+    "npc-generator-llm.settings": {
+        "hideAlignment": {
+            "name": "Masquer l'Alignement",
+            "hint": "Remplace l'alignement par \"Inconnu\" si vous souhaitez le cacher aux joueurs. L'alignement sera toujours importé dans la section secrète de la \"Biographie\"."
+        },
+        "movementUnits": {
+            "name": "Utiliser le Système Métrique",
+            "hint": "Lorsqu'il est activé, le système métrique sera utilisé pour la mesure des mouvements du personnage généré, plutôt que le système impérial."
+        },
+        "systemSource": "Système",
+        "itemsComp": {
+            "name": "Recueil d'Objets",
+            "hint": "Le recueil d'objets qui sera utilisé pour remplir la fiche de personnage."
+        },
+        "spellsComp": {
+            "name": "Recueil de Sorts",
+            "hint": "Le recueil de sorts qui sera utilisé pour remplir la fiche de personnage."
+        },
+        "LLMEngine": {
+            "name": "Moteur LLM",
+            "hint": "Le moteur LLM à utiliser [Groq(Mixtral), GPT(3.5), Mistral(large-latest)]."
+        },
+        "fuzzyThreshold": {
+            "name": "Seuil de Recherche d'Objets et de Sorts",
+            "hint": "À quel point l'algorithme de correspondance abandonne. Un seuil de 0,0 nécessite une correspondance parfaite (des lettres et de l'emplacement), un seuil de 1,0 correspondrait à n'importe quoi."
+        },
+        "apiKey_GPT": {
+            "name": "Clé API GPT",
+            "hint": "Votre clé API OpenAI privée. [https://platform.openai.com/account/api-keys]"
+        },
+        "apiKey_Groq": {
+            "name": "Clé API Groq AI",
+            "hint": "Votre clé API Groq privée. [https://console.groq.com/keys]"
+        },
+        "apiKey_Mistral": {
+            "name": "Clé API Mistral AI",
+            "hint": "Votre clé API Mistral privée. [https://console.mistral.ai/api-keys/]"
+        },
+        "temperature": {
+            "name": "Température",
+            "hint": "Ce paramètre affecte la \"créativité\" des réponses du modèle. Des valeurs plus élevées (proches de 1) rendent les réponses plus aléatoires, tandis que des valeurs plus basses (proches de 0) les rendent plus déterministes et concentrées. Une valeur élevée peut entraîner une plus grande variété de réponses, mais pourrait également produire des résultats moins prévisibles."
+        },
+        "top_p": {
+            "name": "Top P",
+            "hint": "Également connu sous le nom de \"nucleus sampling\", ce paramètre limite le pool de mots ou de tokens que le modèle peut sélectionner en fonction de la probabilité. Par exemple, avec un top_p=0,9, le modèle choisira parmi les 90 % \"meilleurs\" des mots ou tokens prédits, en excluant les options moins probables. Cela peut aider à trouver un équilibre entre diversité et cohérence dans la sortie."
+        },
+        "freq_penality": {
+            "name": "Pénalité de Fréquence",
+            "hint": "Ce paramètre peut être utilisé pour décourager les réponses qui apparaissent trop souvent ou sont trop courantes. Les valeurs positives pénalisent l'utilisation de mots fréquents, conduisant à des réponses potentiellement plus originales, tandis que les valeurs négatives encouragent l'utilisation de mots fréquents."
+        },
+        "pres_penality": {
+            "name": "Pénalité de Présence",
+            "hint": "Ce paramètre influence la tendance du modèle à inclure ou exclure des mots ou concepts spécifiques dans la réponse. Les valeurs positives encouragent l'inclusion de concepts spécifiques, tandis que les valeurs négatives les découragent."
+        }
+    },
+    "npc-generator-llm.button": "Générer PNJ",
+    "npc-generator-llm.dialog": {
+        "title": "NGG - Préférences",
+        "background": {
+            "label": "Historique",
+            "placeholder": "écrire ici"
+        },
+        "button": "Créer PNJ",
+        "buttonPending": "Connexion...",
+        "random": "Aléatoire",
+        "name": "Nom",
+        "ph-name": "Optionnel",
+        "type": {
+            "label": "Type",
+            "commoner": "Roturier",
+            "npc": "PNJ",
+            "monster": "Monstre"
+        },
+        "gender": {
+            "label": "Genre",
+            "male": "Homme",
+            "female": "Femme"
+        },
+        "race": {
+            "label": "Race",
+            "dragonborn": "Drakéide",
+            "dwarf-common": "Nain",
+            "dwarf-hill": "Nain des Collines",
+            "dwarf-mountain": "Nain des Montagnes",
+            "elf-common": "Elfe",
+            "elf-high": "Elfe Haut",
+            "elf-wood": "Elfe des Bois",
+            "drow": "Elfe Noir",
+            "gnome-common": "Gnome",
+            "gnome-forest": "Gnome des Forêts",
+            "gnome-rock": "Gnome des Roches",
+            "halfelf": "Demi-Elfe",
+            "halfling-common": "Halfelin",
+            "halfling-lightfoot": "Halfelin Pied-Léger",
+            "halfling-stout": "Halfelin Robuste",
+            "halforc": "Demi-Orc",
+            "human": "Humain",
+            "tiefling": "Tieffelin"
+        },
+        "subtype": {
+            "label": "Sous-type",
+            "job": "Métier",
+            "class": "Classe",
+            "size": "Taille",
+            "subrace": "Sous-race"
+        },
+        "job": {
+            "label": "Métier",
+            "alchemist": "Alchimiste",
+            "baker": "Boulanger",
+            "barkeep": "Tavernier",
+            "blacksmith": "Forgeron",
+            "butcher": "Boucher",
+            "carpenter": "Charpentier",
+            "cobbler": "Cordonnier",
+            "farmer": "Fermier",
+            "fisherman": "Pêcheur",
+            "guard": "Garde",
+            "healer": "Guérisseur",
+            "hermit": "Ermite",
+            "hunter": "Chasseur",
+            "innkeeper": "Aubergiste",
+            "merchant": "Marchand",
+            "messenger": "Messager",
+            "miner": "Mineur",
+            "scribe": "Scribe",
+            "tailor": "Tailleur"
+        },
+        "monstertype": {
+            "label": "Type de Monstre",
+            "aberration": "Aberration",
+            "beast": "Bête",
+            "celestial": "Céleste",
+            "construct": "Construct",
+            "dragon": "Dragon",
+            "elemental": "Élémentaire",
+            "fey": "Fée",
+            "fiend": "Fiélon",
+            "giant": "Géant",
+            "humanoid": "Humanoïde",
+            "monstrosity": "Monstruosité",
+            "ooze": "Gelée",
+            "plant": "Plante",
+            "undead": "Mort-vivant"
+        },
+        "class": {
+            "label": "Classe",
+            "barbarian": "Barbare",
+            "bard": "Barde",
+            "cleric": "Clerc",
+            "druid": "Druide",
+            "fighter": "Guerrier",
+            "monk": "Moine",
+            "paladin": "Paladin",
+            "ranger": "Rôdeur",
+            "rogue": "Voleur",
+            "sorcerer": "Ensorceleur",
+            "warlock": "Sorcier",
+            "wizard": "Magicien"
+        },
+        "size": {
+            "label": "Taille",
+            "medium": "Moyenne",
+            "tiny": "Minuscule",
+            "small": "Petite",
+            "large": "Grande",
+            "huge": "Énorme",
+            "gargantuan": "Gargantuesque"
+        },
+        "cr": {
+            "label": "Niveau de Difficulté"
+        },
+        "alignment": {
+            "label": "Alignement",
+            "lg": "Loyal Bon",
+            "ng": "Neutre Bon",
+            "cg": "Chaotique Bon",
+            "ln": "Loyal Neutre",
+            "n": "Neutre",
+            "cn": "Chaotique Neutre",
+            "le": "Loyal Mauvais",
+            "ne": "Neutre Mauvais",
+            "ce": "Chaotique Mauvais"
+        }
+    },
+    "npc-generator-llm.enhance": {
+        "title": "NGG - Préférences",
+        "button": "Améliorer PNJ",
+        "buttonPending": "Connexion...",
+        "radio": {
+            "background": "Biographie",
+            "enhance": "Améliorer"
+        }
+    },
+    "npc-generator-llm.status": {
+        "done": "Génération de PNJ '{npcName}' Terminée !",
+        "enhance": "Amélioration de PNJ '{npcName}' Terminée !",
+        "error": "Requête Refusée ! Attendez quelques secondes et réessayez. (Voir la console (F12) pour plus de détails)",
+        "error2": "Erreur lors du traitement de la réponse de ChatGPT ! Réessayez.",
+        "error3": "Erreur lors de la création du PNJ ! Réessayez.",
+        "error4": "Vous n'avez aucun crédit sur votre compte OpenAI. Veuillez visiter https://platform.openai.com/account/billing/overview",
+        "wait": "Veuillez patienter. Une requête est déjà en cours de traitement."
+    },
+    "npc-generator-llm.query": {
+        "generate": "Créer un PNJ {userQuery} pour D&D 5e. Structure :",
+        "enhance": "Écrire la biographie du PNJ {userQuery} pour D&D 5e. Structure :",
+        "name": "Nom",
+        "background": "Courte biographie",
+        "appearance": "Apparence",
+        "roleplaying": "Conseils de jeu de rôle",
+        "readaloud": "Description évocatrice que le MJ lira aux joueurs",
+        "equip": "Équipement",
+        "spells": "Sorts",
+        "hint":"sachant que le PNJ a au moins les informations suivantes"
+    },
+    "npc-generator-llm.sheet": {
+        "appearance": "Apparence",
+        "background": "Historique",
+        "alignment": "Alignement",
+        "unknown": "Inconnu",
+        "roleplaying": "Jeu de Rôle",
+        "readaloud": "Lire à voix haute aux joueurs",
+        "equip": "Équipement",
+        "spells": "Sorts"
+    }
+}

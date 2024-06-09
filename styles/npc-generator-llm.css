@@ -67,3 +67,16 @@
     box-shadow: none;
 }
 .npcGenGPT button:focus { box-shadow: none; }
+
+/* Add the styles for the textarea */
+.npcGenGPT textarea {
+    float: right;
+    width: 55%;
+    height: 100px; /* Set a suitable height for the textarea */
+    padding: 5px;
+    border: 1px solid #565869;
+    color: #d1d5db;
+    background-color: rgba(0, 0, 0, 0.1);
+    resize: vertical; /* Allow the user to resize the textarea vertically */
+}
+.npcGenGPT textarea:focus { box-shadow: none; }

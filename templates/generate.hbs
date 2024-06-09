@@ -21,5 +21,10 @@
         </select>
     </div>
     {{/each}}
+     <div>
+    <label for="background">{{localize "npc-generator-llm.dialog.background.label"}}:</label>
+    <textarea id="background" placeholder="{{localize "npc-generator-llm.dialog.background.placeholder"}}"></textarea>
+  </div>
     <button type="submit" id="npcGenGPT_create-btn">{{localize 'npc-generator-llm.dialog.button'}}</button>
 </div>
+

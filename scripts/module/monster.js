@@ -124,8 +124,17 @@ export class Monster extends ANPC  {
         const _size = this.size;
         const _alignment = this.alignment;
         const _cr = this.cr;
+        const _bck =  this.data.details.prompt;
         //const { optionalName, gender, race, subtype, alignment } = this.data.details;
-        let options = `${_gender}, ${_monstertype}, ${_size}, ${_alignment}, challenge rating ${_cr}`;
+        let options;
+        if(_bck!="")
+            {
+            options = `${_gender}, ${_monstertype}, ${_size}, ${_alignment}, challenge rating ${_cr}, knowing that the npc has at least the folling backgroung ${_bck}`;
+            }
+            else
+            {
+                options = `${_gender}, ${_monstertype}, ${_size}, ${_alignment}, challenge rating ${_cr}`;
+            }
         if (_optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${_optionalName}) ${options}`; 
         return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
     }

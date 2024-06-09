@@ -104,6 +104,7 @@ export class ANPC  {
             this.data.details[category] = this.getSelectedOption(dialogCategory);
         });
         this.data.details["optionalName"] = npcgen_element.find('#name').val();
+        this.data.details["prompt"] = npcgen_element.find('#background').val();
         //this.data.details.sheet = (type.value === 'commoner') ? 'npc-generator-llm.dialog.subtype.label' : (type.value === 'monster')?'npc-generator-llm.dialog.subtype.type':'npc-generator-llm.dialog.subtype.class';
     }
 
