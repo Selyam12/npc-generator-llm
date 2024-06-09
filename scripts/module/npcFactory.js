@@ -1,4 +1,4 @@
-import { ANPC,Commoner } from "./commoner.js";
+import { Commoner } from "./commoner.js";
 import {NPC} from "./npc.js"
 import {Monster} from "./monster.js"
 export class NPCFactory

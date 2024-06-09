@@ -14,9 +14,24 @@ export class ANPC  {
         this.name="";
         this.data = {};
         this.data.details = {};
-       
+        this.options = [];
     }
-
+    mergeGptData(gptData) {
+        const { name: gptName, spells, items, appearance, background, roleplaying, readaloud } = gptData;
+        this.data.name = gptName;
+        this.data.spells = spells;
+        this.data.items = items;
+        this.data.details = {
+            ...this.data.details,
+            source: "NPC Generator (GPT)",
+            biography: {
+                appearance: appearance,
+                background: background,
+                roleplaying: roleplaying,
+                readaloud: readaloud
+            }
+        };
+    }
     getType()
     {
         throw new Error("Method 'getType()' must be implemented.");
@@ -60,9 +75,6 @@ export class ANPC  {
             subtypeSelectElement.html(this.generateOptions(this.options[2], true));
         }
 
-        //npcgen_element.find("label[for='subtype']").text(`${label}:`);
-        //npcgen_element.find("#subtype").html(this.generateOptions("class", true));
-        npcgen_element.find("#cr").html(this.generateOptions('cr', this.type!='commoner'));
     }
 
     
@@ -128,5 +140,76 @@ export class ANPC  {
         const gcd = (a, b) => b ? gcd(b, a % b) : a;
         const g = gcd(Math.round(float * 1000), 1000);
         return `${Math.round(float * 1000) / g}/${1000 / g}`;
+    }
+
+    generateNpcAttributes(npcRace,  npcCR) {
+        const raceData = npcGenGPTDataStructure.raceData[npcRace];
+        const measureUnits = game.settings.get(COSTANTS.MODULE_ID, "movementUnits") ? 'm' : 'ft';
+        return {
+            hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, raceData.size),
+            ac: npcGenGPTLib.getNpcAC(npcCR),
+           // spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
+            movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
+            senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
+        }
+    }
+    generateNpcTraits(npcRace) {
+        const languages = (npcGenGPTDataStructure.raceData[npcRace].lang || []).slice();
+        if (npcRace === 'human' || npcRace === 'halfelf') {
+            languages.push(npcGenGPTLib.getRandomFromPool(npcGenGPTDataStructure.languagesList.filter(lang => !languages.includes(lang)), 1)[0]);
+        }
+        return {
+            languages: languages,
+            size: npcGenGPTDataStructure.raceData[npcRace].size
+        }
+    }
+    async createNPC() {
+        try {
+            const { abilities, attributes, details, name, skills, traits, currency } = this.data;
+            const fakeAlign = (game.settings.get(COSTANTS.MODULE_ID, "hideAlignment")) ? game.i18n.localize("npc-generator-llm.sheet.unknown") : details.alignment.label;
+            const bioContent = await npcGenGPTLib.getTemplateStructure(COSTANTS.TEMPLATE.SHEET, this.data);
+
+            const actor = await Actor.create({ name: name, type: "npc" });
+            this.UpdateActor(actor,details,fakeAlign,bioContent,abilities,attributes,skills,traits,currency)
+
+            let comp = npcGenGPTLib.getSettingsPacks();
+            npcGenGPTLib.addItemstoNpc(actor, comp.items, this.data.items);
+            npcGenGPTLib.addItemstoNpc(actor, comp.spells, this.data.spells);
+
+            actor.sheet.render(true);
+
+            //this.close();
+            ui.notifications.info(`${COSTANTS.LOG_PREFIX} ${game.i18n.format("npc-generator-llm.status.done", { npcName: name })}`);
+        } catch (error) {
+            console.error(`${COSTANTS.LOG_PREFIX} Error during NPC creation:`, error);
+            ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error3")}`);
+        }
+    }
+
+    async UpdateActor(actor,details,fakeAlign,bioContent,abilities,attributes,skills,traits,currency)
+    {
+        await actor.update({
+            system: {
+                details: {
+                    source: details.source,
+                    cr: details.cr.value,
+                    alignment: fakeAlign,
+                    race: details.race.label,
+                    biography: { value: bioContent },
+                    type: { value: 'custom', custom: details.race.label }
+                },
+                traits: { size: traits.size, languages: { value: traits.languages } },
+                abilities: abilities,
+                attributes: {
+                    hp: attributes.hp,
+                    'ac.value': attributes.ac,
+                    movement: attributes.movement,
+                    senses: attributes.senses,
+                    spellcasting: attributes.spellcasting
+                },
+                skills: skills,
+                currency: currency
+            }
+        });
     }
 }

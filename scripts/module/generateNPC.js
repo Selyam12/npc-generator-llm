@@ -77,8 +77,9 @@ export class npcGenGPTGenerateNPC extends Application {
         button.text(game.i18n.localize("npc-generator-llm.dialog.button"));
 
         if (responseData) {
-            this.mergeGptData(responseData);
-            this.createNPC();
+            npc.mergeGptData(responseData);
+            npc.createNPC();
+            this.close();
         }
     }
 
@@ -108,119 +109,119 @@ export class npcGenGPTGenerateNPC extends Application {
         this.data.currency = npcGenGPTLib.getNpcCurrency(cr.value); */
     }
 
-    initQuery() {
-        const { optionalName, gender, race, subtype, alignment } = this.data.details;
-        let options = `${gender.label}, ${race.label}, ${subtype.label}, ${alignment.label}`;
-        if (optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${optionalName}) ${options}`; 
-        return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
-    }
+    // initQuery() {
+    //     const { optionalName, gender, race, subtype, alignment } = this.data.details;
+    //     let options = `${gender.label}, ${race.label}, ${subtype.label}, ${alignment.label}`;
+    //     if (optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${optionalName}) ${options}`; 
+    //     return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
+    // }
 
-    mergeGptData(gptData) {
-        const { name: gptName, spells, items, appearance, background, roleplaying, readaloud } = gptData;
-        this.data.name = gptName;
-        this.data.spells = spells;
-        this.data.items = items;
-        this.data.details = {
-            ...this.data.details,
-            source: "NPC Generator (GPT)",
-            biography: {
-                appearance: appearance,
-                background: background,
-                roleplaying: roleplaying,
-                readaloud: readaloud
-            }
-        };
-    }
+    // mergeGptData(gptData) {
+    //     const { name: gptName, spells, items, appearance, background, roleplaying, readaloud } = gptData;
+    //     this.data.name = gptName;
+    //     this.data.spells = spells;
+    //     this.data.items = items;
+    //     this.data.details = {
+    //         ...this.data.details,
+    //         source: "NPC Generator (GPT)",
+    //         biography: {
+    //             appearance: appearance,
+    //             background: background,
+    //             roleplaying: roleplaying,
+    //             readaloud: readaloud
+    //         }
+    //     };
+    // }
 
-    async createNPC() {
-        try {
-            const { abilities, attributes, details, name, skills, traits, currency } = this.data;
-            const fakeAlign = (game.settings.get(COSTANTS.MODULE_ID, "hideAlignment")) ? game.i18n.localize("npc-generator-llm.sheet.unknown") : details.alignment.label;
-            const bioContent = await npcGenGPTLib.getTemplateStructure(COSTANTS.TEMPLATE.SHEET, this.data);
+    // async createNPC() {
+    //     try {
+    //         const { abilities, attributes, details, name, skills, traits, currency } = this.data;
+    //         const fakeAlign = (game.settings.get(COSTANTS.MODULE_ID, "hideAlignment")) ? game.i18n.localize("npc-generator-llm.sheet.unknown") : details.alignment.label;
+    //         const bioContent = await npcGenGPTLib.getTemplateStructure(COSTANTS.TEMPLATE.SHEET, this.data);
 
-            const npc = await Actor.create({ name: name, type: "npc" });
-            await npc.update({
-                system: {
-                    details: {
-                        source: details.source,
-                        cr: details.cr.value,
-                        alignment: fakeAlign,
-                        race: details.race.label,
-                        biography: { value: bioContent },
-                        type: { value: 'custom', custom: details.race.label }
-                    },
-                    traits: { size: traits.size, languages: { value: traits.languages } },
-                    abilities: abilities,
-                    attributes: {
-                        hp: attributes.hp,
-                        'ac.value': attributes.ac,
-                        movement: attributes.movement,
-                        senses: attributes.senses,
-                        spellcasting: attributes.spellcasting
-                    },
-                    skills: skills,
-                    currency: currency
-                }
-            });
+    //         const npc_ = await Actor.create({ name: name, type: "npc" });
+    //         await npc_.update({
+    //             system: {
+    //                 details: {
+    //                     source: details.source,
+    //                     cr: details.cr.value,
+    //                     alignment: fakeAlign,
+    //                     race: details.race.label,
+    //                     biography: { value: bioContent },
+    //                     type:  { value: 'custom', custom: details.race.label }
+    //                 },
+    //                 traits: { size: traits.size, languages: { value: traits.languages } },
+    //                 abilities: abilities,
+    //                 attributes: {
+    //                     hp: attributes.hp,
+    //                     'ac.value': attributes.ac,
+    //                     movement: attributes.movement,
+    //                     senses: attributes.senses,
+    //                     spellcasting: attributes.spellcasting
+    //                 },
+    //                 skills: skills,
+    //                 currency: currency
+    //             }
+    //         });
 
-            let comp = npcGenGPTLib.getSettingsPacks();
-            npcGenGPTLib.addItemstoNpc(npc, comp.items, this.data.items);
-            npcGenGPTLib.addItemstoNpc(npc, comp.spells, this.data.spells);
+    //         let comp = npcGenGPTLib.getSettingsPacks();
+    //         npcGenGPTLib.addItemstoNpc(npc_, comp.items, this.data.items);
+    //         npcGenGPTLib.addItemstoNpc(npc_, comp.spells, this.data.spells);
 
-            npc.sheet.render(true);
+    //         npc_.sheet.render(true);
 
-            this.close();
-            ui.notifications.info(`${COSTANTS.LOG_PREFIX} ${game.i18n.format("npc-generator-llm.status.done", { npcName: name })}`);
-        } catch (error) {
-            console.error(`${COSTANTS.LOG_PREFIX} Error during NPC creation:`, error);
-            ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error3")}`);
-        }
-    }
+    //         this.close();
+    //         ui.notifications.info(`${COSTANTS.LOG_PREFIX} ${game.i18n.format("npc-generator-llm.status.done", { npcName: name })}`);
+    //     } catch (error) {
+    //         console.error(`${COSTANTS.LOG_PREFIX} Error during NPC creation:`, error);
+    //         ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error3")}`);
+    //     }
+    // }
 
-    generateNpcAbilities(npcSubtype, npcCR) {
-        const npcStats = npcGenGPTDataStructure.subtypeData[npcSubtype];
-        const profAbilities = (npcSubtype === 'commoner'||'monster')
-            ? npcGenGPTLib.getRandomFromPool(npcStats.save.pool, npcStats.save.max)
-            : npcStats.save;
-        const npcAbilities = npcGenGPTLib.getNpcAbilities(profAbilities);
-        return npcGenGPTLib.scaleAbilities(npcAbilities, npcCR)
-    }
+    // generateNpcAbilities(npcSubtype, npcCR) {
+    //     const npcStats = npcGenGPTDataStructure.subtypeData[npcSubtype];
+    //     const profAbilities = (npcSubtype === 'commoner'||'monster')
+    //         ? npcGenGPTLib.getRandomFromPool(npcStats.save.pool, npcStats.save.max)
+    //         : npcStats.save;
+    //     const npcAbilities = npcGenGPTLib.getNpcAbilities(profAbilities);
+    //     return npcGenGPTLib.scaleAbilities(npcAbilities, npcCR)
+    // }
 
-    generateNpcAttributes(npcRace, npcSubtype, npcCR) {
-        const raceData = npcGenGPTDataStructure.raceData[npcRace];
-        const subtypeData = npcGenGPTDataStructure.subtypeData[npcSubtype];
-        const measureUnits = game.settings.get(COSTANTS.MODULE_ID, "movementUnits") ? 'm' : 'ft';
-        return {
-            hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, raceData.size),
-            ac: npcGenGPTLib.getNpcAC(npcCR),
-            spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
-            movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
-            senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
-        }
-    }
+    // generateNpcAttributes(npcRace, npcSubtype, npcCR) {
+    //     const raceData = npcGenGPTDataStructure.raceData[npcRace];
+    //     const subtypeData = npcGenGPTDataStructure.subtypeData[npcSubtype];
+    //     const measureUnits = game.settings.get(COSTANTS.MODULE_ID, "movementUnits") ? 'm' : 'ft';
+    //     return {
+    //         hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, raceData.size),
+    //         ac: npcGenGPTLib.getNpcAC(npcCR),
+    //         spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
+    //         movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
+    //         senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
+    //     }
+    // }
 
-    generateNpcSkills(npcRace, npcSubtype) {
-        const { pool: defaultPool, max } = npcGenGPTDataStructure.subtypeData[npcSubtype].skills;
-        const pool = (npcRace === 'elf' || npcRace === 'drow')
-            ? npcGenGPTLib.getRandomFromPool(defaultPool.filter(skill => skill !== 'prc'), max).concat('prc')
-            : npcGenGPTLib.getRandomFromPool(defaultPool, max);
+    // generateNpcSkills(npcRace, npcSubtype) {
+    //     const { pool: defaultPool, max } = npcGenGPTDataStructure.subtypeData[npcSubtype].skills;
+    //     const pool = (npcRace === 'elf' || npcRace === 'drow')
+    //         ? npcGenGPTLib.getRandomFromPool(defaultPool.filter(skill => skill !== 'prc'), max).concat('prc')
+    //         : npcGenGPTLib.getRandomFromPool(defaultPool, max);
 
-        return pool.reduce((acc, el) => {
-            acc[el] = { value: 1, ability: npcGenGPTLib.getSkillAbility(el) };
-            return acc;
-        }, {});
-    }
+    //     return pool.reduce((acc, el) => {
+    //         acc[el] = { value: 1, ability: npcGenGPTLib.getSkillAbility(el) };
+    //         return acc;
+    //     }, {});
+    // }
 
-    generateNpcTraits(npcRace, npcSubtype) {
-        const languages = (npcGenGPTDataStructure.raceData[npcRace].lang || []).slice();
-        const subtypeLanguages = (npcGenGPTDataStructure.subtypeData[npcSubtype].lang || []).slice();
-        for (const subLang of subtypeLanguages) if (!languages.includes(subLang)) languages.push(subLang);
-        if (npcRace === 'human' || npcRace === 'halfelf') {
-            languages.push(npcGenGPTLib.getRandomFromPool(npcGenGPTDataStructure.languagesList.filter(lang => !languages.includes(lang)), 1)[0]);
-        }
-        return {
-            languages: languages,
-            size: npcGenGPTDataStructure.raceData[npcRace].size
-        }
-    }
+    // generateNpcTraits(npcRace, npcSubtype) {
+    //     const languages = (npcGenGPTDataStructure.raceData[npcRace].lang || []).slice();
+    //     const subtypeLanguages = (npcGenGPTDataStructure.subtypeData[npcSubtype].lang || []).slice();
+    //     for (const subLang of subtypeLanguages) if (!languages.includes(subLang)) languages.push(subLang);
+    //     if (npcRace === 'human' || npcRace === 'halfelf') {
+    //         languages.push(npcGenGPTLib.getRandomFromPool(npcGenGPTDataStructure.languagesList.filter(lang => !languages.includes(lang)), 1)[0]);
+    //     }
+    //     return {
+    //         languages: languages,
+    //         size: npcGenGPTDataStructure.raceData[npcRace].size
+    //     }
+    // }
 }

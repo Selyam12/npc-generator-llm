@@ -52,19 +52,42 @@ export class NPC extends ANPC  {
                 return npcGenGPTDataStructure.crList;
         }
     }
-    
+    SetLabels()
+    {
+        this.gender =this.data.details.gender.label;
+        this.race=this.data.details.race.label;
+        this.class=this.data.details.class.label;
+        this.alignment=this.data.details.alignment.label;
+        this.cr =this.data.details.cr.label;
+    }  
+    SetValues()
+    {
+        this.genderV =this.data.details.gender.value;
+        this.raceV=this.data.details.race.value;
+        this.classV=this.data.details.class.value;
+        this.alignmentV=this.data.details.alignment.value;
+        this.crV =this.data.details.cr.value;
+    }  
     parseHTML(npcgen_element)
     {
         super.parseHTML(npcgen_element);
+        this.SetLabels();
+        this.SetValues();
+        this.data.details["sheet"] =  'npc-generator-llm.dialog.subtype.class';
 
-        this.details["sheet"] =  'npc-generator-llm.dialog.subtype.class';
-        this.data.abilities = this.generateNpcAbilities(this.abilityData, this.details.cr.value);
-        this.data.attributes = this.generateNpcAttributes(this.details.race.value,  this.details.cr.value);
-        this.data.skills = this.generateNpcSkills(race.value, subtype.value);
-        this.data.traits = this.generateNpcTraits(race.value, subtype.value);
-        this.data.currency = npcGenGPTLib.getNpcCurrency(cr.value);
+        this.data.abilities = this.generateNpcAbilities(this.classV, this.crV);
+        this.data.attributes = this.generateNpcAttributes(this.raceV,  this.crV);
+        this.data.skills = this.generateNpcSkills(this.raceV, this.classV);
+        this.data.traits = this.generateNpcTraits(this.raceV);
+        this.data.currency = npcGenGPTLib.getNpcCurrency(this.crV);
 
         return this.data;
+    }
+    setHtmlElement(npcgen_element)
+    {
+        super.setHtmlElement(npcgen_element);
+        npcgen_element.find("#cr").html(this.generateOptions('cr', false));
+
     }
 
     generateNpcAbilities(_class, npcCR) {
@@ -73,5 +96,29 @@ export class NPC extends ANPC  {
         const npcAbilities = npcGenGPTLib.getNpcAbilities(profAbilities);
         return npcGenGPTLib.scaleAbilities(npcAbilities, npcCR)
     }
+    generateNpcSkills(npcRace, npcClass) {
+        const { pool: defaultPool, max } = this.classData[npcClass].skills;
+        const pool = (npcRace === 'elf' || npcRace === 'drow')
+            ? npcGenGPTLib.getRandomFromPool(defaultPool.filter(skill => skill !== 'prc'), max).concat('prc')
+            : npcGenGPTLib.getRandomFromPool(defaultPool, max);
 
+        return pool.reduce((acc, el) => {
+            acc[el] = { value: 1, ability: npcGenGPTLib.getSkillAbility(el) };
+            return acc;
+        }, {});
+    }
+
+    initQuery() {
+        const _optionalName = this.data.details.optionalName;
+        const _gender = this.gender;
+        const _race = this.race;
+        const _class = this.class;
+        const _alignment = this.alignment;
+        const _cr = this.cr;
+        //const { optionalName, gender, race, subtype, alignment } = this.data.details;
+        let options = `${_gender}, ${_race}, ${_class}, ${_alignment},challenge rating ${_cr}`;
+        if (_optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${_optionalName}) ${options}`; 
+        return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
+    }
+ 
 }

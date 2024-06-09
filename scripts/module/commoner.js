@@ -38,7 +38,7 @@ export class Commoner extends ANPC  {
                 return npcGenGPTDataStructure.crList;
         }
     }
-    SetPorperties()
+    SetLabels()
     {
         this.gender =this.data.details.gender.label;
         this.race=this.data.details.race.label;
@@ -46,19 +46,35 @@ export class Commoner extends ANPC  {
         this.alignment=this.data.details.alignment.label;
         this.cr =this.data.details.cr.label;
     }  
+    SetValues()
+    {
+        this.genderV =this.data.details.gender.value;
+        this.raceV=this.data.details.race.value;
+        this.jobV=this.data.details.job.value;
+        this.alignmentV=this.data.details.alignment.value;
+        this.crV =this.data.details.cr.value;
+    }  
     parseHTML(npcgen_element)
     { 
         super.parseHTML(npcgen_element);
-        this.SetPorperties();
+        this.SetLabels();
+        this.SetValues();
         this.data.details["sheet"] =  'npc-generator-llm.dialog.subtype.label' ;
 
-        this.data.abilities = this.generateNpcAbilities(this.abilityData, this.cr);
-        this.data.attributes = this.generateNpcAttributes(this.race,  this.cr);
-        this.data.skills = this.generateNpcSkills(this.race);
-        this.data.traits = this.generateNpcTraits(this.race);
-        this.data.currency = npcGenGPTLib.getNpcCurrency(this.cr);
+        this.data.abilities = this.generateNpcAbilities(this.abilityData, this.crV);
+        this.data.attributes = this.generateNpcAttributes(this.raceV,  this.crV);
+        this.data.skills = this.generateNpcSkills(this.raceV);
+        this.data.traits = this.generateNpcTraits(this.raceV);
+        this.data.currency = npcGenGPTLib.getNpcCurrency(this.crV);
 
         return this.data;
+    }
+
+    setHtmlElement(npcgen_element)
+    {
+        super.setHtmlElement(npcgen_element);
+        npcgen_element.find("#cr").html(this.generateOptions('cr', false));
+
     }
 
     generateNpcAbilities(npcStats, npcCR) {
@@ -68,17 +84,6 @@ export class Commoner extends ANPC  {
         return npcGenGPTLib.scaleAbilities(npcAbilities, npcCR)
     }
 
-    generateNpcAttributes(npcRace,  npcCR) {
-        const raceData = npcGenGPTDataStructure.raceData[npcRace];
-        const measureUnits = game.settings.get(COSTANTS.MODULE_ID, "movementUnits") ? 'm' : 'ft';
-        return {
-            hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, raceData.size),
-            ac: npcGenGPTLib.getNpcAC(npcCR),
-           // spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
-            movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
-            senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
-        }
-    }
 
     generateNpcSkills(npcRace) {
         const { pool: defaultPool, max } = this.abilityData.skills;
@@ -92,16 +97,7 @@ export class Commoner extends ANPC  {
         }, {});
     }
 
-    generateNpcTraits(npcRace) {
-        const languages = (npcGenGPTDataStructure.raceData[npcRace].lang || []).slice();
-        if (npcRace === 'human' || npcRace === 'halfelf') {
-            languages.push(npcGenGPTLib.getRandomFromPool(npcGenGPTDataStructure.languagesList.filter(lang => !languages.includes(lang)), 1)[0]);
-        }
-        return {
-            languages: languages,
-            size: npcGenGPTDataStructure.raceData[npcRace].size
-        }
-    }
+    
 
     initQuery() {
         const _optionalName = this.data.details.optionalName;
@@ -111,11 +107,14 @@ export class Commoner extends ANPC  {
         const _alignment = this.alignment;
         const _cr = this.cr;
         //const { optionalName, gender, race, subtype, alignment } = this.data.details;
-        let options = `${_gender}, ${_race}, ${_job}, ${_alignment},challenge rating ${_cr}`;
+        let options = `${_gender}, ${_race}, ${_job}, ${_alignment}, challenge rating ${_cr}`;
         if (_optionalName) options = `(${game.i18n.localize("npc-generator-llm.query.name")}: ${_optionalName}) ${options}`; 
         return npcGenGPTDataStructure.getGenerateQueryTemplate(options)
     }
 
+ 
+
+   
     /* getGenerateQueryTemplate(options) { 
         return `${game.i18n.format("npc-generator-llm.query.generate", { userQuery: options })}\n{
             "name": "${game.i18n.localize("npc-generator-llm.query.name")}",
