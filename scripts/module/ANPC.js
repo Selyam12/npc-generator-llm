@@ -168,7 +168,7 @@ export class ANPC  {
         return {
             hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, raceData.size),
             ac: npcGenGPTLib.getNpcAC(npcCR),
-           // spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
+            //spellcasting: subtypeData[npcSubtype]?.spellcasting && 'int',
             movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
             senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
         }
@@ -185,10 +185,14 @@ export class ANPC  {
     }
 
     mergeGptData(gptData) {
-        const { name: gptName, spells, items, appearance, background, roleplaying, readaloud } = gptData;
+        const { name: gptName, spells, items, appearance, background, roleplaying, readaloud,vulnerabilities,special_traits,features } = gptData;
         this.data.name = gptName;
         this.data.spells = spells;
         this.data.items = items;
+        this.data.features = features;
+        this.data.vulnerabilities = vulnerabilities;
+        this.data.special_traits = special_traits;
+
         this.data.details = {
             ...this.data.details,
             source: "NPC Generator (GPT)",
@@ -211,9 +215,13 @@ export class ANPC  {
             this.UpdateActor(actor,details,fakeAlign,bioContent,abilities,attributes,skills,traits,currency)
 
             let comp = npcGenGPTLib.getSettingsPacks();
+            this.data.spells = this.data.spells.map(obj => obj.name);
+            this.data.items = this.data.items.map(obj => obj.name);
             npcGenGPTLib.addItemstoNpc(actor, comp.items, this.data.items);
             npcGenGPTLib.addItemstoNpc(actor, comp.spells, this.data.spells);
-
+            if(this.data.features)
+                this.CreateFeatures(actor, this.data.features);
+        
             actor.sheet.render(true);
 
             //this.close();
@@ -223,6 +231,28 @@ export class ANPC  {
             ui.notifications.error(`${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error3")}`);
         }
     }
+
+    async CreateFeatures(actor,items)
+    {
+        const itemsArray = [];
+        for (let item of items) {
+            let itm = this.toItemJSON(item);
+            if (itm) itemsArray.push(itm);
+        }
+        await actor.createEmbeddedDocuments("Item", itemsArray, {});
+    }
+    toItemJSON(itm) {
+        return {
+            name: itm.name,
+            type: "feat",
+            system: {
+                description: {
+                    value: itm.description
+                }
+            }
+        };
+    }
+        
 
     async UpdateActor(actor,details,fakeAlign,bioContent,abilities,attributes,skills,traits,currency)
     {

@@ -34,7 +34,7 @@ export class npcGenGPTDataStructure {
         'fey', 'fiend', 'giant', 'humanoid', 'monstrosity', 'ooze','plant','undead'
     ];
     static alignmentList = ['lg', 'ng', 'cg', 'ln', 'n', 'cn', 'le', 'ne', 'ce'];
-    static sizeList =[ "medium", "tiny", "small","large", "huge", "gargantuan"];
+    static sizeList =[ "med", "tiny", "sm","lg", "huge", "grg"];
 
     static crList(complete) {
         if (!complete) return [0];
@@ -107,23 +107,26 @@ export class npcGenGPTDataStructure {
     static hpDice = { tiny: 4, sm: 6, med: 8, lg: 10, huge: 12, grg: 20 };
 
     static getGenerateQueryTemplate(options) { 
-        return `${game.i18n.format("npc-generator-llm.query.generate", { userQuery: options })}\n{
+        return `${game.i18n.format("npc-generator-llm.query.generate", { userQuery: options })}\n
+        \`json({   
             "name": "${game.i18n.localize("npc-generator-llm.query.name")}",
             "background": "${game.i18n.localize("npc-generator-llm.query.background")}",
             "appearance": "${game.i18n.localize("npc-generator-llm.query.appearance")}",
             "roleplaying": "${game.i18n.localize("npc-generator-llm.query.roleplaying")}",
             "readaloud": "${game.i18n.localize("npc-generator-llm.query.readaloud")}",
             "items": "${game.i18n.localize("npc-generator-llm.query.equip")} (array)",
-            "spells": "${game.i18n.localize("npc-generator-llm.query.spells")} (array)",
-        }`
-    }
+            "spells": "${game.i18n.localize("npc-generator-llm.query.spells")} (array)",\n
+            
+        })\``
+    }//(²)
 
     static getEnhanceQueryTemplate(options) { 
-        return `${game.i18n.format("npc-generator-llm.query.enhance", { userQuery: options })}\n{
+        return `${game.i18n.format("npc-generator-llm.query.enhance", { userQuery: options })}\n
+        \`json({
             "background": "${game.i18n.localize("npc-generator-llm.query.background")}",
             "appearance": "${game.i18n.localize("npc-generator-llm.query.appearance")}",
             "roleplaying": "${game.i18n.localize("npc-generator-llm.query.roleplaying")}",
             "readaloud": "${game.i18n.localize("npc-generator-llm.query.readaloud")}"
-        }`
+    })\``
     }
 }

@@ -161,12 +161,12 @@
         },
         "size": {
             "label":"Size",
-            "medium": "Medium",
+            "med": "Medium",
             "tiny": "Tiny",            
-            "small": "Small",
-            "large": "Large",
+            "sm": "Small",
+            "lg": "Large",
             "huge": "Huge",
-            "gargantuan": "Gargantuan"
+            "grg": "Gargantuan"
         },
         "cr": {
             "label": "CR"
@@ -203,14 +203,16 @@
         "wait": "Please wait. A request is already being processed."
     },
     "npc-generator-llm.query": {
-        "generate": "Create a NPC {userQuery} for D&D 5e. Structure:",
+        "generate": "Create a NPC {userQuery} for D&D 5e.\nRemarks:\n1- if spellcasting is present, higher spell level imply less spells.\n 2- max 3 spells by level.\n 3- max 7 items\n4- at least 1 action, 1 feature.\n Structure:",
         "enhance": "Write the D&D 5e NPC {userQuery} biography. Structure:",
         "name": "Name",
         "background": "Short biography",
         "appearance": "Appearance",
         "roleplaying": "Roleplaying tips",
         "readaloud": "Evocative description that the GM will read to the players",
-        "equip": "Equipment",
+        "equip": "Equipment or Action or Feature",
+        "vulnerabilities": "Vulnerability",
+        "special":"Special Traits",
         "spells": "Spells",
         "hint": "knowing that the npc has at least the following info"
     },
@@ -222,6 +224,8 @@
         "roleplaying": "Roleplaying",
         "readaloud": "Read Aloud to Players",
         "equip": "Equipment",
+        "vulnerabilities": "Vulnerability",
+        "special":"Special Traits",
         "spells": "Spells"
     }
 }

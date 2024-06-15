@@ -119,7 +119,8 @@ export class npcGenGPTLib {
                 "temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
                 "top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
                 "frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
-                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
+                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality"),
+                "response_format":{"type": "json_object"},
             }),
             headers: {
                 'Accept': 'application/json',
@@ -142,7 +143,8 @@ export class npcGenGPTLib {
                 "temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
                 "top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
                 "frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
-                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
+                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality"),
+                "response_format":{"type": "json_object"},
             }),
             headers: {
                 'Accept': 'application/json',
@@ -165,7 +167,8 @@ export class npcGenGPTLib {
                 "temperature": game.settings.get(COSTANTS.MODULE_ID, "temperature"),
                 "top_p": game.settings.get(COSTANTS.MODULE_ID, "top_p"),
                 "frequency_penalty": game.settings.get(COSTANTS.MODULE_ID, "freq_penality"),
-                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality")
+                "presence_penalty": game.settings.get(COSTANTS.MODULE_ID, "pres_penality"),
+                "response_format":{"type": "json_object"},
             }),
             headers: {
                 'Accept': 'application/json',
@@ -176,7 +179,7 @@ export class npcGenGPTLib {
     }
     static convertGPTData(content) {
         const gptContent = content.choices[0].message.content;
-        const regex = /```json([\s\S]*?)```/;
+        const regex = /```[\s\S]*?```/;
         const match = regex.exec(gptContent);
         const errorMsg = `${COSTANTS.LOG_PREFIX} ${game.i18n.localize("npc-generator-llm.status.error2")}`;
 

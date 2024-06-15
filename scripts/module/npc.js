@@ -76,7 +76,7 @@ export class NPC extends ANPC  {
         this.data.details["sheet"] =  'npc-generator-llm.dialog.subtype.class';
 
         this.data.abilities = this.generateNpcAbilities(this.classV, this.crV);
-        this.data.attributes = this.generateNpcAttributes(this.raceV,  this.crV);
+        this.data.attributes = this.generateNpcAttributes(this.raceV,this.classV,  this.crV);
         this.data.skills = this.generateNpcSkills(this.raceV, this.classV);
         this.data.traits = this.generateNpcTraits(this.raceV);
         this.data.currency = npcGenGPTLib.getNpcCurrency(this.crV);
@@ -95,6 +95,17 @@ export class NPC extends ANPC  {
         const profAbilities =  npcStats.save;
         const npcAbilities = npcGenGPTLib.getNpcAbilities(profAbilities);
         return npcGenGPTLib.scaleAbilities(npcAbilities, npcCR)
+    }
+    generateNpcAttributes(npcRace,_class,  npcCR) {
+        const raceData = npcGenGPTDataStructure.raceData[npcRace];
+        const measureUnits = game.settings.get(COSTANTS.MODULE_ID, "movementUnits") ? 'm' : 'ft';
+        return {
+            hp: npcGenGPTLib.getNpcHp(npcCR, this.data.abilities.con.value, raceData.size),
+            ac: npcGenGPTLib.getNpcAC(npcCR),
+            spellcasting:  this.classData[_class]?.spellcasting && 'int',
+            movement: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.movement) : raceData.movement), units: measureUnits },
+            senses: { ...((measureUnits === 'm') ? npcGenGPTLib.convertToMeters(raceData.senses) : raceData.senses), units: measureUnits }
+        }
     }
     generateNpcSkills(npcRace, npcClass) {
         const { pool: defaultPool, max } = this.classData[npcClass].skills;
